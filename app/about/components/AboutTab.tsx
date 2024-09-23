@@ -9,6 +9,7 @@ export default function AboutTab({ tab }: { tab: string }) {
           key={v}
           href={`/about?tab=${v}`}
           className={`${tabClass} ${tab === v && "bg-white/10"}`}
+          scroll={false}
         >
           {v.toUpperCase()}
         </Link>
