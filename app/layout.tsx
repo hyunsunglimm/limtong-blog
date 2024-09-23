@@ -16,7 +16,9 @@ export default function RootLayout({
     <html lang="ko">
       <body className="antialiased bg-bg text-white">
         <Header />
-        <main className="pt-[60px]">{children}</main>
+        <main className="pt-[60px] w-full px-4">
+          <div className="w-full max-w-limit mx-auto py-12">{children}</div>
+        </main>
       </body>
     </html>
   );

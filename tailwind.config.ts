@@ -1,4 +1,6 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
+import lineClamp from "@tailwindcss/line-clamp";
 
 const config: Config = {
   darkMode: ["class"],
@@ -13,6 +15,9 @@ const config: Config = {
         header: "60px",
       },
       maxWidth: {
+        center: "900px",
+        left: "240px",
+        right: "240px",
         limit: "1500px",
       },
       colors: {
@@ -66,6 +71,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate, lineClamp],
 };
 export default config;

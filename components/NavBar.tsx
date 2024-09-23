@@ -7,8 +7,15 @@ export default function NavBar() {
       <Link href="/post" className={LinkClass}>
         POST
       </Link>
-      <Link href="/about" className={LinkClass}>
+      <Link href="/about?tab=projects" className={LinkClass}>
         ABOUT
+      </Link>
+      <Link
+        href="https://drive.google.com/file/d/12gAE4N6FfAdIL4U3g41-miOaI8pZE-3z/view"
+        target="_blank"
+        className={LinkClass}
+      >
+        RESUME
       </Link>
       <Link href="https://github.com/hyunsunglimm" target="_blank">
         <GithubIcon />
