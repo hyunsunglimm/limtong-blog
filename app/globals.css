@@ -2,26 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, Freesentation, sans-serif;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+@font-face {
+  font-family: "Freesentation";
+  font-weight: 100;
+  src: url("/fonts/Freesentation-1Thin.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Freesentation";
+  font-weight: 200;
+  src: url("/fonts/Freesentation-2ExtraLight.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Freesentation";
+  font-weight: 300;
+  src: url("/fonts/Freesentation-3Light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Freesentation";
+  font-weight: 400;
+  src: url("/fonts/Freesentation-4Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Freesentation";
+  font-weight: 500;
+  src: url("/fonts/Freesentation-5Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Freesentation";
+  font-weight: 600;
+  src: url("/fonts/Freesentation-6SemiBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Freesentation";
+  font-weight: 700;
+  src: url("/fonts/Freesentation-7Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Freesentation";
+  font-weight: 800;
+  src: url("/fonts/Freesentation-8ExtraBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Freesentation";
+  font-weight: 900;
+  src: url("/fonts/Freesentation-9Black.ttf") format("truetype");
 }
