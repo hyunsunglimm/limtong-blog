@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: -apple-system, Freesentation, sans-serif;
+  font-family: Freesentation, sans-serif;
 }
 
 @font-face {
