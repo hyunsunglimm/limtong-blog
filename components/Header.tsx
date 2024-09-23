@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import NavBar from "./NavBar";
-import MenuIcon from "./icons/MenuIcon";
+import TopSheet from "./TopSheet";
 
 export default function Header() {
   return (
@@ -20,7 +20,7 @@ export default function Header() {
           <p className="font-semibold text-lg">임통 블로그</p>
         </Link>
         <div className="block sm:hidden">
-          <MenuIcon />
+          <TopSheet />
         </div>
         <NavBar />
       </div>
