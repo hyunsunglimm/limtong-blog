@@ -3,7 +3,7 @@ import GithubIcon from "./icons/GithubIcon";
 
 export default function NavBar() {
   return (
-    <nav className="flex gap-6">
+    <nav className="hidden sm:flex gap-6">
       <Link href="/post" className={LinkClass}>
         POST
       </Link>

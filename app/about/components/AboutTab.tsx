@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function AboutTab({ tab }: { tab: string }) {
   return (
-    <section className="mt-8 mb-4 grid grid-cols-4 gap-4">
+    <section className="mt-8 mb-4 grid grid-cols-3 md:grid-cols-4 gap-4">
       {tabs.map((v) => (
         <Link
           key={v}

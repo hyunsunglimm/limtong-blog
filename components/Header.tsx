@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import NavBar from "./NavBar";
+import MenuIcon from "./icons/MenuIcon";
 
 export default function Header() {
   return (
@@ -14,10 +15,13 @@ export default function Header() {
             src="/images/limtong-icon.png"
             alt="임통 아이콘"
             width={40}
-            height={40}
+            height={45}
           />
           <p className="font-semibold text-lg">임통 블로그</p>
         </Link>
+        <div className="block sm:hidden">
+          <MenuIcon />
+        </div>
         <NavBar />
       </div>
     </header>

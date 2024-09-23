@@ -2,16 +2,16 @@ import Image from "next/image";
 
 export default function Profile() {
   return (
-    <div className="flex gap-4">
+    <div className="flex flex-col lg:flex-row gap-4 items-center lg:items-stretch">
       <Image
         src="/images/profile.png"
         alt="프로필 사진"
         width={200}
-        height={300}
+        height={257}
         className="rounded-md"
       />
-      <div className="flex flex-col justify-between">
-        <h2 className="text-4xl font-bold">
+      <div className="flex flex-col justify-between gap-4 w-full">
+        <h2 className="text-2xl md:text-4xl font-bold">
           안녕하세요, 세상을 최적화하는 개발자 임현성입니다.
         </h2>
         <p className={pClass}>
@@ -35,5 +35,5 @@ export default function Profile() {
   );
 }
 
-const pClass = "text-lg font-semibold";
+const pClass = "text-base md:text-lg font-semibold";
 const spanClass = "text-my";
