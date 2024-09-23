@@ -1,4 +1,5 @@
 import Link from "next/link";
+import GithubIcon from "./icons/GithubIcon";
 
 export default function NavBar() {
   return (
@@ -8,6 +9,9 @@ export default function NavBar() {
       </Link>
       <Link href="/about" className={LinkClass}>
         ABOUT
+      </Link>
+      <Link href="https://github.com/hyunsunglimm" target="_blank">
+        <GithubIcon />
       </Link>
     </nav>
   );

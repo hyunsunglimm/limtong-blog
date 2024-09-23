@@ -4,7 +4,7 @@ import NavBar from "./NavBar";
 
 export default function Header() {
   return (
-    <header className="fixed top-0 bg-bg/10 backdrop-blur-sm border-b border-neutral-700 w-full h-header flex items-center">
+    <header className="fixed top-0 bg-bg/10 backdrop-blur-sm border-b border-neutral-700 w-full h-header flex items-center px-4">
       <div className="w-full max-w-limit mx-auto flex justify-between items-center">
         <Link
           href="/"
