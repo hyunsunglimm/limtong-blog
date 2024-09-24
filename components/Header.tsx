@@ -16,6 +16,7 @@ export default function Header() {
             alt="임통 아이콘"
             width={40}
             height={45}
+            priority
           />
           <p className="font-semibold text-lg">임통 블로그</p>
         </Link>

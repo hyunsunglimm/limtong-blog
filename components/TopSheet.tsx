@@ -22,11 +22,6 @@ export default function TopSheet() {
         </SheetHeader>
         <nav className="flex flex-col items-center gap-4 mt-4">
           <SheetClose asChild>
-            <Link href="/post" className={LinkClass}>
-              POST
-            </Link>
-          </SheetClose>
-          <SheetClose asChild>
             <Link href="/about?tab=projects" className={LinkClass}>
               ABOUT
             </Link>
