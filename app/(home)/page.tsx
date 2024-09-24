@@ -7,7 +7,7 @@ export default async function page() {
 
   return (
     <div className="flex">
-      <LeftSidebar posts={posts} />
+      <LeftSidebar />
       <div className="pl-[300px] w-full">
         <ul className="grid grid-cols-4 gap-x-4 gap-y-8">
           {posts.map((post) => (

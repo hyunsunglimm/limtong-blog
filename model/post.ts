@@ -6,6 +6,7 @@ export type PostMatter = {
 };
 
 export type Post = PostMatter & {
+  slug: string;
   url: string;
   category: string;
   dateString: string;

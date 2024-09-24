@@ -16,22 +16,17 @@ const parsePost = async (postPath: string): Promise<Post> => {
   return { ...postAbstract, ...postDetail };
 };
 
-// MDX Abstract
-// url, cg path, cg name, slug
 const parsePostAbstract = (postPath: string) => {
-  // category1/title1/content
   const filePath = postPath
     .slice(postPath.indexOf(BASE_PATH))
     .replace(`${BASE_PATH}/`, "")
     .replace(".mdx", "");
 
-  // category1, title1
-  const [category, title] = filePath.split("/");
+  const [category, slug] = filePath.split("/");
 
-  // /blog/category1/title1
-  const url = `/post/${category}/${title}`;
+  const url = `/post/${slug}`;
 
-  return { url, category, title };
+  return { url, category, slug };
 };
 
 // MDX Detail
@@ -57,5 +52,24 @@ const getPostPaths = (category?: string) => {
 export const getPostList = async (category?: string): Promise<Post[]> => {
   const paths: string[] = getPostPaths(category);
   const posts = await Promise.all(paths.map((postPath) => parsePost(postPath)));
-  return posts;
+  return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
+};
+
+// 상세 포스트 조회
+export const getPost = async (slug: string) => {
+  const path = sync(`${POSTS_PATH}/**/${slug}/content.mdx`)[0];
+  const post = await parsePost(path);
+  return post;
+};
+
+export const getCategoryList = async () => {
+  const posts = await getPostList();
+  const categories = [...new Set(posts.map((post) => post.category))];
+  const categoryList = categories.map((category) => ({
+    category,
+    items: posts
+      .filter((post) => post.category === category)
+      .map((post) => ({ title: post.title, url: post.url })),
+  }));
+  return categoryList;
 };
