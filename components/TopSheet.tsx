@@ -20,7 +20,7 @@ export default function TopSheet() {
         <SheetHeader>
           <SheetTitle>Menu</SheetTitle>
         </SheetHeader>
-        <nav className="flex flex-col items-center gap-4 mt-4">
+        <nav className="flex flex-col items-center gap-2 mt-4 border-t py-4">
           <SheetClose asChild>
             <Link href="/about?tab=projects" className={LinkClass}>
               ABOUT
@@ -46,4 +46,4 @@ export default function TopSheet() {
   );
 }
 
-const LinkClass = "text-xl font-semibold rounded-sm hover:text-my transition";
+const LinkClass = "text-lg font-semibold rounded-sm hover:text-my transition";
