@@ -1,12 +1,19 @@
 import LeftSidebar from "@/components/LeftSidebar";
+import { getPostList } from "@/service/post";
+import PostCard from "./components/PostCard";
 
-export default function page() {
+export default async function page() {
+  const posts = await getPostList();
+
   return (
     <div className="flex">
       <LeftSidebar />
       <div className="pl-[300px] w-full">
-        <p className="text-4xl font-bold">asd, ;</p>
-        <p>asd, ;</p>
+        <ul className="grid grid-cols-4 gap-x-4 gap-y-6">
+          {posts.map((post) => (
+            <PostCard key={post.url + post.date} post={post} />
+          ))}
+        </ul>
       </div>
     </div>
   );
