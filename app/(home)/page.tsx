@@ -8,8 +8,8 @@ export default async function page() {
   return (
     <div className="flex">
       <LeftSidebar />
-      <div className="pl-[300px] w-full">
-        <ul className="grid grid-cols-4 gap-x-4 gap-y-8">
+      <div className="lg:pl-[300px] w-full">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
           {posts.map((post) => (
             <PostCard key={post.url + post.date} post={post} />
           ))}
