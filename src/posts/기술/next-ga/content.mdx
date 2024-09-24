@@ -1,0 +1,187 @@
+---
+title: "Next.js에서 Google Analytics 적용하기"
+date: 2024-07-30
+desc: Next.js 프로젝트에 Google Analytics를 도입하여 웹사이트 트래픽을 분석해봅시다
+thumbnail: /images/posts/기술/next-ga/thumbnail.png
+---
+
+![Lighthouse 결과](https://velog.velcdn.com/images/gustjd3834/post/6aa86c2a-9cef-49d1-8ce5-2afc71cd4ede/image.png)
+[리브로 몬도](https://www.libromondo.shop/)의 Lighthouse 결과입니다.
+아직 개선해야할 점이 많이 보이지만 검색엔진 최적화 부분에서 100점을 기록했고,
+실제로 구글에 검색했을 때 최상단에 노출되는 것을 확인할 수 있었습니다.
+![](https://velog.velcdn.com/images/gustjd3834/post/1fa8f625-f172-499d-81c8-c67e596ef053/image.png)
+(검색 결과에 파비콘 노출은 아직 적용이 되지 않았나 봅니다... 🥲)
+
+아무튼 ! 이렇게 메타데이터를 작성하여 검색엔진 최적화를 통해 검색 결과에서 높은 순위에 노출될 가능성이 커졌습니다. 이제 SEO 성능이 확실해진 만큼, 얼마나 많은 사용자가 웹사이트에 접속하고, 어떤 경로로 들어오는지 분석하기 위해 **Google Analytics**를 도입하려고 합니다.
+
+# Google Analytics란?
+
+> Google Analytics는 웹사이트 및 애플리케이션의 트래픽, 사용자 행동, 성과를 분석할 수 있는 강력한 데이터 분석 도구입니다. 구글이 제공하는 이 서비스는 웹사이트의 방문자 수, 사용자 행동 패턴, 페이지뷰, 전환율 등을 추적하고 시각화하여 마케팅 및 비즈니스 의사결정을 지원합니다.
+
+### 실시간 데이터
+
+실시간으로 웹사이트에 접속한 사용자 수, 위치, 활동 등을 확인할 수 있습니다.
+
+### 사용자 행동 분석
+
+어떤 페이지에서 얼마나 오랜 시간 머무는지, 특정 행동(예: 구매, 클릭)을 하는지 추적할 수 있습니다.
+
+### 유입 경로 분석
+
+검색엔진, 소셜 미디어, 이메일, 광고 등 사용자가 어떤 경로로 웹사이트에 들어오는지 분석할 수 있습니다.
+
+### 목표 및 전환 추적
+
+전환(구매, 문의, 가입 등) 경로를 추적해 목표를 달성하는 비율을 파악할 수 있습니다.
+
+### 고급 보고서
+
+다양한 차원에서 데이터를 분류하고 필터링하여 특정 정보를 얻을 수 있습니다.
+
+# Google Analytics를 사용하는 이유
+
+### 1. 사용자 행동 분석
+
+방문자가 웹사이트에서 어떤 행동을 취하는지, 어떤 페이지를 가장 많이 방문하는지, 어떤 콘텐츠가 가장 인기 있는지를 파악할 수 있습니다. 이를 통해 사용자 경험(UX)을 개선하고 필요한 부분을 최적화할 수 있습니다.
+
+### 2. 마케팅 캠페인 성과 측정
+
+Google Analytics는 광고나 마케팅 캠페인의 성과를 분석할 수 있는 도구입니다. 예를 들어, 구글 애드워즈(Ads), 페이스북 광고, 이메일 마케팅 등 각 채널별로 전환율과 ROI를 측정할 수 있어, 어떤 캠페인이 효과적이고 어디에 더 자원을 집중해야 하는지 판단할 수 있습니다.
+
+### 3. 웹사이트 성능 개선
+
+웹사이트 로딩 속도, 이탈률, 사용자 세션 시간 등의 데이터를 분석해 성능을 개선할 수 있습니다. 페이지가 로딩되는 시간이 길면 이탈률이 높아지는데, 이를 확인하고 최적화 작업을 진행할 수 있습니다.
+
+### 4. 타겟팅 및 개인화
+
+사용자의 위치, 언어, 디바이스, 브라우저 등 다양한 특성을 파악해 타겟팅된 콘텐츠 또는 캠페인을 제공할 수 있습니다. 예를 들어, 모바일 기기를 주로 사용하는 사용자에게는 반응형 디자인을 최적화하거나 특정 국가의 사용자에게는 맞춤형 콘텐츠를 제공하는 식으로 활용할 수 있습니다.
+
+### 5. 데이터 기반 의사결정
+
+비즈니스 의사결정을 데이터에 기반해 할 수 있습니다. 예를 들어, 방문자가 많이 유입되는 페이지를 분석해 이를 기준으로 콘텐츠를 확장하거나, 성과가 떨어지는 페이지는 개선할 수 있습니다.
+
+# Google Analytics 적용하기
+
+## Google Analytics 설정
+
+우선 [Google Analytics 웹사이트](https://analytics.google.com/)에 접속하여 설정을 해야합니다.
+
+![](https://velog.velcdn.com/images/gustjd3834/post/53f2c258-a02a-4b62-8771-2569a1faec85/image.png)
+
+사용할 계정 이름을 입력하고 다음 버튼을 클릭합니다.
+
+![](https://velog.velcdn.com/images/gustjd3834/post/748d6f7c-e501-44ee-8de2-253648b0dd44/image.png)
+
+속성이름을 입력하고 시간대를 변경한 뒤 다음 버튼을 클릭합니다.
+
+3, 4단계인 비즈니스 세부정보와 비즈니스 목표는 Google Analytics를 적용할 서비스에 맞게 작성해줍니다.
+
+![](https://velog.velcdn.com/images/gustjd3834/post/4d6fd5d4-8aad-4043-9ed0-552b627a257c/image.png)
+
+마지막 단계에서 데이터 수집을 할 플랫폼을 선택합니다.
+저는 웹을 선택했습니다.
+
+![](https://velog.velcdn.com/images/gustjd3834/post/e3669659-6b0f-4258-b204-13a9677045b1/image.png)
+
+적용할 웹사이트의 URL과 스트림 이름을 입력한 뒤 만들고 계속하기 버튼을 클릭합니다.
+
+완료가 되면 G-로 시작하는 `측정 ID`값을 확인할 수 있습니다.
+
+`측정 ID`는 로컬 환경변수 파일인 `.env.local`에 작성해줍니다.
+
+```
+NEXT_PUBLIC_GOOGLE_ANALYTICS = "G-0000000000"
+```
+
+## 프로젝트에 적용
+
+아래 코드는 Google Analytics를 Next.js 프로젝트에 쉽게 적용할 수 있는 컴포넌트입니다.
+이 컴포넌트를 사용하면 Google Analytics의 트래킹 스크립트를 웹사이트에 삽입하고, 트래킹 코드를 자동으로 실행할 수 있습니다.
+
+```tsx
+import Script from "next/script";
+
+const GoogleAnalytics = ({ gaId }: { gaId: string }) => {
+  return (
+    <>
+      <Script
+        async
+        src={`https://www.googletagmanager.com/gtag/js
+				?id=${gaId}`}
+      />
+      <Script
+        id="google-analytics"
+        dangerouslySetInnerHTML={{
+          __html: `
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', '${gaId}');
+		`,
+        }}
+      />
+    </>
+  );
+};
+
+export default GoogleAnalytics;
+```
+
+Next.js에서 제공하는 `next/script` 모듈은 외부 스크립트를 효율적으로 관리할 수 있게 도와줍니다.
+
+- 첫 번째 Script 태그
+
+```tsx
+<Script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+```
+
+이 스크립트는 Google Tag Manager의 gtag.js 파일을 비동기적으로 로드합니다.
+gaId는 `.env.local`에 작성했던 값으로 Google Analytics와 연결된 고유 식별자입니다.
+`props` 로 받아 전달해줍니다.
+
+- 두 번째 Script 태그
+
+```tsx
+<Script
+  id="google-analytics"
+  dangerouslySetInnerHTML={{
+    __html: `
+  	window.dataLayer = window.dataLayer || [];
+  	function gtag(){dataLayer.push(arguments);}
+  	gtag('js', new Date());
+
+  	gtag('config', '${gaId}');
+  	`,
+  }}
+/>
+```
+
+두 번째 스크립트는 Google Analytics를 초기화하고 설정하는 스크립트입니다.
+여기서 `dangerouslySetInnerHTML` 속성은 텍스트 형태의 JavaScript를 삽입할 때 사용됩니다.
+
+- `window.dataLayer` : Google Tag Manager와 연동된 데이터를 저장하는 배열입니다.
+- `gtag('js', new Date())` : 현재 날짜와 함께 Google Analytics를 초기화합니다.
+- `gtag('config', '${gaId}')` : 제공된 gaId를 사용하여 Google Analytics 설정을 완료하고, 사이트 트래픽 추적을 시작합니다.
+
+> 이제 작성된 GoogleAnalytics 컴포넌트를 최상위 Layout.tsx에 적용합니다.
+
+```tsx
+<html lang="ko">
+  <body className={`${inter.className} flex flex-col min-h-screen`}>
+    {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && (
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+    )}
+    {children}
+  </body>
+</html>
+```
+
+여기까지 마친 후 브라우저 콘솔창에 `console.log(dataLayer)` 를 입력했을 때,
+다음과 같이 출력된다면 적용이 완료된 것입니다.
+![](https://velog.velcdn.com/images/gustjd3834/post/b49c93c6-6707-4dab-867d-5439ebc22821/image.png)
+
+이제 마지막으로, 배포한 플랫폼에 환경변수 등록을 해줍니다.
+배포가 완료되고 [Google Analytics 웹사이트](https://analytics.google.com/)의 실시간 개요를 확인해보면 다음과 같은 결과를 볼 수 있습니다.
+
+![](https://velog.velcdn.com/images/gustjd3834/post/15994ece-7779-4ec2-a7cc-691db121f24b/image.png)

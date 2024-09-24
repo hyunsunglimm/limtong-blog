@@ -1,0 +1,130 @@
+---
+title: "[PORKO] 로그인 및 회원가입"
+date: 2024-05-27
+desc: 프로젝트 PORKO의 로그인과 회원가입에 적용한 Funnel, Multi-Step-Form에 대해 설명합니다.
+thumbnail: /images/posts/기술/porko-login-signup/thumbnail.png
+---
+
+> 여러 서비스들을 사용하다보면 회원가입 시 여러 정보들을 수집하는 경우가 있습니다.
+> 아래 이미지를 통해 쉽게 이해할 수 있습니다.
+
+![](https://velog.velcdn.com/images/gustjd3834/post/a1881769-ea64-4faa-ac9f-05510e98a796/image.png)
+
+위와 같은 UI패턴을 구현하기 위해 `Funnel`과 `Multi-Step-Form`을 학습하며 개발한 경험을 포스팅하고자 합니다.
+
+# Funnel
+
+`Funnel`은 사용자가 특정 목표에 도달하는 과정에서 거치는 단계들을 의미합니다.
+회원가입이나 온보딩 과정에서 사용자가 각 단계를 거치며 이탈하지 않도록 설계하는 것이 핵심입니다.
+
+### Funnel의 중요성
+
+각 단계에서 얼마나 많은 사용자가 이탈하는지 분석함으로써, 어느 단계가 문제인지 식별할 수 있습니다. 이탈률이 많은 단계가 있다면 해당 단계를 더 간소화하거나 UX를 개선할 필요가 있습니다. 이를 통해 사용자의 흐름을 분석하고 최적화하여 보다 더 많은 사용자가 회원가입을 완료할 수 있게 합니다.
+
+### 주의할 점
+
+사용자가 어느 단계에서 무엇을 해야 하는지 명확하게 제시해 주고, 이전 단계로 돌아가는 옵션도 제공해줘야 사용자가 혼란을 느끼지 않고 계속 진행할 수 있습니다.
+
+# Multi-Step-Form
+
+`Multi-Step-Form`은 하나의 긴 폼을 여러 단계로 나누어 사용자에게 부담을 줄여주는 방식입니다.
+회원가입이나 온보딩 과정에서 복잡한 정보를 한 번에 다 입력하게 하는 대신, 몇 가지 중요한 정보만 한 단계씩 입력하게 함으로써 사용자 경험을 개선합니다.
+
+### Multi-Step-Form의 중요성
+
+- 이탈률 감소: 긴 폼이 한 번에 보여질 때보다 이탈률이 적어집니다. 각 단계가 짧고 명확하기 때문에, 사용자는 완료할 수 있을 것이라는 자신감을 느끼고 계속 진행하게 됩니다.
+
+- 데이터 수집 전략: 사용자가 중간에 이탈하더라도, 이미 입력한 정보를 저장해 놓으면 다음에 이어서 진행할 수 있게 설계할 수 있습니다.
+
+> 그렇다면 위의 전략들을 어떻게 코드로 구현해낼 수 있을 지 알아보도록 합시다.
+
+우선 저는 사용자가 회원가입 시 입력해야하는 많은 정보를 수집하고 유효성을 검증하기 위해 `react-hook-form`과 `zod` 라이브러리를 채택했습니다.
+
+기획된 회원가입의 단계는 총 4단계로 이루어져 있습니다.
+각 단계에 입력된 정보를 수집하기 위해 `SignipFormProvider` 컴포넌트를 작성했습니다.
+
+```ts
+"use client";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  SignupInputsValues,
+  defaultValues,
+  signupSchema,
+} from "../../schema/signupSchema";
+import { Form } from "@/components/ui/form";
+import { signup } from "@/service/api/auth";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import MessagePopup from "@/components/MessagePopup";
+
+const SignUpFormProvider = ({ children }: { children: React.ReactNode }) => {
+  const form = useForm<SignupInputsValues>({
+    resolver: zodResolver(signupSchema),
+    defaultValues,
+    mode: "all",
+  });
+  const router = useRouter();
+
+  const [error, setError] = useState<string | undefined>("");
+
+  const { handleSubmit } = form;
+
+  const onSubmit = handleSubmit(async (formValues) => {
+    setError("");
+    const result = await signup(formValues);
+
+    if (result?.error) {
+      setError(result.error);
+      setTimeout(() => setError(""), 2000);
+      return;
+    }
+    router.push("/auth/login");
+    sessionStorage.removeItem("signup-storage");
+  });
+
+  return (
+    <Form {...form}>
+      <form onSubmit={onSubmit} className="px-20">
+        {children}
+
+        <MessagePopup isView={!!error}>{error}</MessagePopup>
+      </form>
+    </Form>
+  );
+};
+export default SignUpFormProvider;
+```
+
+수집된 정보를 세션 스토리지에 저장하여 브라우저 탭이 닫히지 않는 동안 데이터를 유지하기 위해
+`zustand`의 `persist`를 사용했습니다.
+
+```ts
+// signup.ts
+
+export const useSignupStore = create<SignupState>()(
+  persist(
+    (set) => {
+      return {
+        email: "",
+        checkEmail: false,
+        password: "",
+        confirmPassword: "",
+        name: "",
+        phoneNumber: "",
+        roadName: "",
+        detail: "",
+        gender: "",
+        setStorage: (field, value) => set({ [field]: value }),
+      };
+    },
+    {
+      name: "signup-storage",
+      storage: createJSONStorage(() => sessionStorage),
+    }
+  )
+);
+```
+
+회원가입 페이지의 최상단에서 `SignupFormProvider`를 사용하여 각 단계에 해당하는 정보를 수집하고, 새로고침을 하더라도 브라우저 탭만 닫지 않는다면 데이터가 유실되지 않도록 회원가입 기능을 구현할 수 있었습니다.

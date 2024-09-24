@@ -26,7 +26,7 @@ export default function PostCard({ post }: PostCardProps) {
           </div>
         </div>
       </Link>
-      <p className="absolute top-2 right-2 bg-bg/70 backdrop-blur-sm rounded-md p-2 font-semibold">
+      <p className="absolute top-2 right-2 bg-bg/80 backdrop-blur-sm rounded-md px-2 py-1 font-semibold">
         {post.category}
       </p>
     </li>
