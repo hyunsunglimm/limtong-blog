@@ -6,7 +6,7 @@ export const highlightedText = (text: string, query: string) => {
       <>
         {parts.map((part, index) =>
           part.toLowerCase() === query.toLowerCase() ? (
-            <span key={index} className="text-my">
+            <span key={index} style={{ color: "#588157" }}>
               {part}
             </span>
           ) : (

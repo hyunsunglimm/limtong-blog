@@ -13,6 +13,7 @@ type LeftSidebarClientProps = {
     items: {
       title: string;
       url: string;
+      slug: string;
     }[];
   }[];
 };

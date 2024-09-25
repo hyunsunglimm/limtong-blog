@@ -5,6 +5,7 @@ import matter from "gray-matter";
 import readingTime from "reading-time";
 import { Post, PostMatter } from "@/model/post";
 import { sync } from "glob";
+import { redirect } from "next/navigation";
 
 const BASE_PATH = "src/posts";
 const POSTS_PATH = path.join(process.cwd(), BASE_PATH);
@@ -58,6 +59,7 @@ export const getPostList = async (category?: string): Promise<Post[]> => {
 // 상세 포스트 조회
 export const getPost = async (slug: string) => {
   const path = sync(`${POSTS_PATH}/**/${slug}/content.mdx`)[0];
+  if (!path) return redirect("/");
   const post = await parsePost(path);
   return post;
 };
@@ -69,7 +71,7 @@ export const getCategoryList = async () => {
     category,
     items: posts
       .filter((post) => post.category === category)
-      .map((post) => ({ title: post.title, url: post.url })),
+      .map((post) => ({ title: post.title, url: post.url, slug: post.slug })),
   }));
   return categoryList;
 };

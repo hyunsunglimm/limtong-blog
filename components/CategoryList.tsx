@@ -3,6 +3,7 @@
 import { useSearchStore } from "@/store/search";
 import { highlightedText } from "@/utils/text";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 type CategoryListProps = {
   categoryList: {
@@ -10,12 +11,14 @@ type CategoryListProps = {
     items: {
       title: string;
       url: string;
+      slug: string;
     }[];
   }[];
 };
 
 export default function CategoryList({ categoryList }: CategoryListProps) {
   const { keyword } = useSearchStore();
+  const { slug } = useParams();
   const filteredCategoryList = categoryList
     .map((c) => {
       const filteredItems = c.items.filter((item) =>
@@ -37,13 +40,15 @@ export default function CategoryList({ categoryList }: CategoryListProps) {
               {category} ({items.length})
             </p>
             <div className="flex flex-col gap-2 px-2 mt-2">
-              {items.map(({ title, url }) => (
+              {items.map((item) => (
                 <Link
-                  key={title}
-                  href={url}
-                  className="text-sm hover:text-my transition truncate"
+                  key={item.title}
+                  href={item.url}
+                  className={`text-sm hover:text-my transition truncate ${
+                    item.slug === slug && "text-my"
+                  }`}
                 >
-                  {highlightedText(title, keyword)}
+                  {highlightedText(item.title, keyword)}
                 </Link>
               ))}
             </div>
