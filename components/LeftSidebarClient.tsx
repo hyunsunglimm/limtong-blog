@@ -5,6 +5,7 @@ import CategoryList from "./CategoryList";
 import SearchBar from "./SearchBar";
 import LeftMenuIcon from "./icons/LeftMenuIcon";
 import useWidth from "@/hooks/useWidth";
+import useOutside from "@/hooks/useOutside";
 
 type LeftSidebarClientProps = {
   categoryList: {
@@ -23,12 +24,15 @@ export default function LeftSidebarClient({
 }: LeftSidebarClientProps) {
   const width = useWidth();
   const [isView, setIsView] = useState(false);
+  const onClose = () => setIsView(false);
+  const ref = useOutside<HTMLDivElement>(onClose);
 
   return (
     <div
       className={`fixed z-10 bg-bg top-[60px] w-[240px] h-full border-r border-neutral-700 pt-12 pb-28 ${
         isView || width >= END_POINT ? "translate-x-0" : "-translate-x-[256px]"
       } transition duration-300`}
+      ref={ref}
     >
       <SearchBar />
       <CategoryList categoryList={categoryList} />
