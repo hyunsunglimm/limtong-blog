@@ -30,7 +30,7 @@ export default function CategoryList({ categoryList }: CategoryListProps) {
       {filteredCategoryList.length === 0 && (
         <p className="mt-4 text-end w-[220px]">검색 결과가 없습니다.</p>
       )}
-      <ul className="mt-4 flex flex-col gap-6">
+      <ul className="mt-4 flex flex-col gap-6 grow overflow-y-scroll pb-12">
         {filteredCategoryList.map(({ category, items }) => (
           <li key={category}>
             <p className="font-bold">

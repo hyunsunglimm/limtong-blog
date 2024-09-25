@@ -29,9 +29,9 @@ export default function LeftSidebarClient({
 
   return (
     <div
-      className={`fixed z-10 bg-bg top-[60px] w-[240px] h-full border-r border-neutral-700 pt-12 pb-28 ${
+      className={`fixed z-10 bg-bg top-[60px] w-[240px] h-full border-r border-neutral-700 pt-12 pb-[60px] ${
         isView || width >= END_POINT ? "translate-x-0" : "-translate-x-[256px]"
-      } transition duration-300`}
+      } transition duration-300 flex flex-col`}
       ref={ref}
     >
       <SearchBar />
