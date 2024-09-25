@@ -15,7 +15,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   return (
     <div className="flex">
       <LeftSidebar />
-      <div className="pl-[60px] pr-[60px] xl:pl-[300px] lg:pr-[300px] w-full">
+      <div className="md:pl-[60px] xl:pl-[300px] md:pr-[60px] lg:pr-[300px] limit:pr-[316px] w-full">
         <p>{post.content}</p>
         <p>{post.content}</p>
         <p>{post.content}</p>

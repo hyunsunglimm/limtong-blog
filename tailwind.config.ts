@@ -20,6 +20,9 @@ const config: Config = {
         right: "240px",
         limit: "1500px",
       },
+      screens: {
+        limit: "1500px",
+      },
       colors: {
         bg: "#202123",
         my: "#EB5200",
