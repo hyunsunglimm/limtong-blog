@@ -1,6 +1,13 @@
-import LeftSidebar from "@/components/LeftSidebar";
-import RightSidebar from "@/components/RightSidebar";
 import { getPost } from "@/service/post";
+import dynamic from "next/dynamic";
+
+const LeftSidebar = dynamic(() => import("@/components/LeftSidebar"), {
+  ssr: false,
+});
+
+const RightSidebar = dynamic(() => import("@/components/RightSidebar"), {
+  ssr: false,
+});
 
 type PostDetailPageProps = {
   params: {

@@ -1,6 +1,10 @@
-import LeftSidebar from "@/components/LeftSidebar";
 import { getPostList } from "@/service/post";
 import PostCard from "./components/PostCard";
+import dynamic from "next/dynamic";
+
+const LeftSidebar = dynamic(() => import("@/components/LeftSidebar"), {
+  ssr: false,
+});
 
 export default async function page() {
   const posts = await getPostList();
