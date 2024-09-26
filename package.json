@@ -39,7 +39,6 @@
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
-    "@fec/remark-a11y-emoji": "^4.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

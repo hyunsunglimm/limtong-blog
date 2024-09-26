@@ -1,10 +1,77 @@
 ---
-title: "Next.js 블로그 만들기 (14.1 최신 버전 + tailwind)"
-date: 2024-02-26
-desc: FE 개발자라면 티스토리 말고 개인 블로그 하나쯤은,,
+title: "Next.js 블로그 만들기 (테스트용 게시글)"
+date: 2024-09-23
+desc: 개인 블로그 만들기 너무 신기하고 재밌다...
 thumbnail: /images/posts/category1/title1/thumbnail.jpeg
 ---
 
 #### 환영
 
-안녕하세요. 이 글은 mdx파일로 작성되었습니다.
+안녕하세요. 이 글은 [mdx파일](https://mdxjs.com/)로 작성되었습니다.
+
+> 안녕하세요. 이 글은 [mdx파일](https://mdxjs.com/)로 작성되었습니다.
+
+# h1
+
+## h2
+
+### h3
+
+#### h4
+
+##### h5
+
+##### h6
+
+callout type
+
+info
+
+<Callout type="info">
+  안녕하세요. 이 글은 [mdx파일](https://mdxjs.com/)로 작성되었습니다.
+</Callout>
+
+## 코드 블럭
+
+```tsx title="코드 블럭"
+<MDXRemote
+  source={post.content}
+  components={MdxComponents}
+  options={{
+    mdxOptions: {
+      remarkPlugins: [remarkGfm, remarkA11yEmoji, remarkBreaks],
+      rehypePlugins: [
+        [
+          rehypePrettyCode,
+          { theme: { dark: "github-dark-dimmed", light: "github-light" } },
+        ],
+        rehypeSlug,
+      ],
+    },
+  }}
+/>
+```
+
+warn
+
+<Callout type="warn">
+  안녕하세요. 이 글은 [mdx파일](https://mdxjs.com/)로 작성되었습니다.
+</Callout>
+
+danger
+
+<Callout type="danger">
+  안녕하세요. 이 글은 [mdx파일](https://mdxjs.com/)로 작성되었습니다.
+</Callout>
+
+normal
+
+<Callout type="normal">
+  안녕하세요. 이 글은 [mdx파일](https://mdxjs.com/)로 작성되었습니다.
+</Callout>
+
+**love** using [Next.js](https://nextjs.org/)
+
+## 싱글 코드 블럭
+
+`기술 스택`

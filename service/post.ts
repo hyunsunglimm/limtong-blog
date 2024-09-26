@@ -64,6 +64,7 @@ export const getPost = async (slug: string) => {
   return post;
 };
 
+// 카테고리별 포스트 분류
 export const getCategoryList = async () => {
   const posts = await getPostList();
   const categories = [...new Set(posts.map((post) => post.category))];
@@ -73,5 +74,11 @@ export const getCategoryList = async () => {
       .filter((post) => post.category === category)
       .map((post) => ({ title: post.title, url: post.url, slug: post.slug })),
   }));
-  return categoryList;
+
+  const sortedCategories = categoryList.sort((a, b) => {
+    if (a.category === "기타") return 1; // '기타'를 마지막으로
+    if (b.category === "기타") return -1; // '기타'를 마지막으로
+    return a.category.localeCompare(b.category); // 사전순 정렬
+  });
+  return sortedCategories;
 };

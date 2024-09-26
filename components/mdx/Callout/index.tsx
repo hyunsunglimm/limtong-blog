@@ -5,35 +5,34 @@ import { cn } from "@/lib/utils";
 
 type CalloutType = "info" | "warn" | "danger" | "normal";
 
-interface CalloutProps extends PropsWithChildren {
+type CalloutProps = PropsWithChildren<{
   type?: CalloutType;
   title?: string;
-}
+}>;
 
-interface IconType {
+type IconType = {
   [key: string]: {
     icon: () => JSX.Element;
     boxClass: string;
   };
-}
+};
 
 const metadata: IconType = {
   info: {
     icon: Icon.Warn,
-    boxClass: "text-informative-foreground bg-informative",
-  },
-  danger: {
-    icon: Icon.Danger,
-    boxClass: "text-destructive-foreground bg-destructive",
+    boxClass: "text-informative-foreground bg-khaki/30",
   },
   warn: {
     icon: Icon.Info,
-    boxClass: "text-warning-foreground bg-warning",
+    boxClass: "text-white bg-warning/20",
   },
-
+  danger: {
+    icon: Icon.Danger,
+    boxClass: "text-white bg-destructive/20",
+  },
   normal: {
     icon: Icon.Normal,
-    boxClass: "text-secondary-foreground bg-secondary",
+    boxClass: "text-white bg-white/10",
   },
 };
 

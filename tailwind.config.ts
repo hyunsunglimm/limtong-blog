@@ -26,6 +26,8 @@ const config: Config = {
       colors: {
         bg: "#202123",
         my: "#EB5200",
+        warning: "#ffb703",
+        khaki: "#606c38",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
