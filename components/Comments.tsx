@@ -16,9 +16,15 @@ export default function Comments() {
     scriptElem.crossOrigin = "anonymous";
 
     scriptElem.setAttribute("data-repo", "hyunsunglimm/limtong-blog");
-    scriptElem.setAttribute("data-repo-id", "R_kgDOM1kq_A");
+    scriptElem.setAttribute(
+      "data-repo-id",
+      process.env.NEXT_PUBLIC_DATA_REPO_ID || ""
+    );
     scriptElem.setAttribute("data-category", "Comments");
-    scriptElem.setAttribute("data-category-id", "DIC_kwDOM1kq_M4Ci1WV");
+    scriptElem.setAttribute(
+      "data-category-id",
+      process.env.NEXT_PUBLIC_DATA_CATEGORY_ID || ""
+    );
     scriptElem.setAttribute("data-mapping", "pathname");
     scriptElem.setAttribute("data-strict", "0");
     scriptElem.setAttribute("data-reactions-enabled", "1");

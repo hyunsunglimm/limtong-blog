@@ -5,14 +5,14 @@ desc: Sanity와 Next.js의 Route Handlers를 사용하여 백엔드 서버와 �
 thumbnail: /images/posts/기술/sanity-with-route-hanlders/thumbnail.png
 ---
 
-# Sanity 소개
+## Sanity 소개
 
 `Sanity`와 `Next.js`의 `Route Handlers`를 사용하면 프론트엔드 개발자이더라도
 간단히 백엔드 서버와 데이터베이스를 구축할 수 있습니다.
 
 `Sanity`에 대해서는 [이전 포스팅](https://velog.io/@gustjd3834/vite%EC%97%90%EC%84%9C-sanity-%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0)을 참고해주세요.
 
-# 스키마 설계
+## 스키마 설계
 
 `Sanity`로 데이터베이스를 구축하기 위해 스키마를 작성합니다.
 코드를 보면 좀 더 쉽게 이해할 수 있습니다.
@@ -83,7 +83,7 @@ export const card = {
 
 ![](https://velog.velcdn.com/images/gustjd3834/post/4f92c671-d12b-4434-b774-398c7a9f719d/image.png)
 
-# Sanity + Route Handlers
+## Sanity + Route Handlers
 
 ```ts
 // route.ts
@@ -111,18 +111,23 @@ GET요청을 받는 라우트 핸들러를 작성했습니다. 그러면 이제 
 
 ```ts
 export const getFilteredCards = async (
-  type: 'credit' | 'check',
+  type: "credit" | "check",
   company?: CardCompany[],
   category?: BenefitCategories[]
-): Promise<CardResponseType[]> =>
+): Promise<CardResponseType[]> => {
   const isValidCompany =
-    company && company.every((c) => CARD_COMPANIES.map((comp) => comp.title).includes(c));
+    company &&
+    company.every((c) => CARD_COMPANIES.map((comp) => comp.title).includes(c));
 
   const isValidCategory =
     category &&
-    category.every((c) => CARD_BENEFIT_CATEGORIES.map((cate) => cate.title_en).includes(c));
+    category.every((c) =>
+      CARD_BENEFIT_CATEGORIES.map((cate) => cate.title_en).includes(c)
+    );
 
-  const companyQuery = isValidCompany ? `&& company in ${JSON.stringify(company)}` : '';
+  const companyQuery = isValidCompany
+    ? `&& company in ${JSON.stringify(company)}`
+    : "";
 
   const query = `
       *[_type == "card" && type == "${type}" ${companyQuery}]${CardResponseFilde}

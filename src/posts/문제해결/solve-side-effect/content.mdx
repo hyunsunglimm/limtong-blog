@@ -5,7 +5,7 @@ desc: 데이터 비교 시 발생했던 불필요한 사이드 이펙트를 해�
 thumbnail: /images/posts/문제해결/solve-side-effect/thumbnail.gif
 ---
 
-# 발견한 문제
+## 발견한 문제
 
 기획의 기능 요구사항은 카드를 비교할 때 최대 2개만 선택 가능하게 하는 것이었습니다.
 그래서 `useEffect` 훅을 사용하여 선택된 카드 배열의 길이가 2보다 커질 때, 처음으로 선택한 카드가
@@ -19,7 +19,7 @@ thumbnail: /images/posts/문제해결/solve-side-effect/thumbnail.gif
 
 ![before](https://github.com/user-attachments/assets/0db53330-8bd1-4edf-84d6-3ee0edbe3a4a)
 
-# 변경 전 코드
+## 변경 전 코드
 
 ```ts
 useEffect(() => {
@@ -42,7 +42,7 @@ const onSelect = (cardId: string) => {
 };
 ```
 
-# 변경 후 코드
+## 변경 후 코드
 
 ```ts
 const onSelect = (cardId: string) => {
