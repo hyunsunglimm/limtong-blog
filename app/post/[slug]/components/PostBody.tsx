@@ -7,23 +7,25 @@ import { MdxComponents } from "@/components/mdx";
 
 export default function PostBody({ content }: { content: string }) {
   return (
-    <MDXRemote
-      source={content}
-      options={{
-        mdxOptions: {
-          remarkPlugins: [remarkGfm, remarkBreaks],
-          rehypePlugins: [
-            [
-              rehypePrettyCode,
-              {
-                theme: "material-theme-darker",
-              },
+    <div className="pb-8">
+      <MDXRemote
+        source={content}
+        options={{
+          mdxOptions: {
+            remarkPlugins: [remarkGfm, remarkBreaks],
+            rehypePlugins: [
+              [
+                rehypePrettyCode,
+                {
+                  theme: "material-theme-darker",
+                },
+              ],
+              rehypeSlug,
             ],
-            rehypeSlug,
-          ],
-        },
-      }}
-      components={MdxComponents}
-    />
+          },
+        }}
+        components={MdxComponents}
+      />
+    </div>
   );
 }
