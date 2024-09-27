@@ -42,6 +42,8 @@ export const Callout = (props: CalloutProps) => {
   const Icon = metaObj.icon;
   const boxClassName = metaObj.boxClass;
 
+  const isShort = typeof props.children === "string";
+
   return (
     <div
       className={cn(
@@ -55,11 +57,12 @@ export const Callout = (props: CalloutProps) => {
         </div>
       )}
 
-      <div className="callout-contents flex-1 text-lg">
-        {props.title && (
-          <span style={{ fontWeight: "bold" }}>{props.title}</span>
+      <div className="text-lg">
+        {isShort ? (
+          <p className="leading-7 my-4">{props.children}</p>
+        ) : (
+          props.children
         )}
-        {props.children}
       </div>
     </div>
   );

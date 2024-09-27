@@ -19,6 +19,7 @@ export const MdxComponents: MDXComponents = {
   h6: Heading.h6 as any,
   ul: Ul as any,
   ol: Ol as any,
+  figure: CodeBlock as any,
   p: ({ children }) => <p className="leading-7 my-4">{children}</p>,
   blockquote: Callout,
   Callout,

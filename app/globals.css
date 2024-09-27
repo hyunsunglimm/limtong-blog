@@ -6,12 +6,10 @@ body {
   font-family: Freesentation, sans-serif;
 }
 
-/* pre {
+pre {
   overflow-x: auto;
-  padding: 1rem 0;
-  border: 1px solid #404040;
-  border-radius: 8px;
-} */
+  padding: 24px 0;
+}
 
 pre [data-line] {
   @apply px-4 text-sm md:text-base;
@@ -19,8 +17,7 @@ pre [data-line] {
 
 /* 코드 블럭 라인 하이라이팅 */
 figure pre code span[data-highlighted-line] {
-  @apply border-l-2 border-y-0 border-transparent bg-opacity-10 
-      border-my bg-indigo-400 pl-[calc(0.5rem-2px)] md:pl-[calc(1rem-2px)];
+  @apply bg-opacity-10 bg-indigo-400 pl-[calc(0.5rem-2px)] md:pl-[calc(1rem-2px)];
 }
 
 /* 인라인 코드 하이라이팅 */
