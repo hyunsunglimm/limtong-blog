@@ -42,14 +42,15 @@ p > code {
   left: -12px;
 }
 
-/* 가상 선택자를 사용하여 해시 링크 오프셋 조정하기
-h1::before {
+/* 가상 선택자를 사용하여 해시 링크 오프셋 조정하기  */
+h2::before,
+h3::before {
   content: "";
   display: block;
-  height: 80px;
-  margin-top: -80px;
+  height: 90px;
+  margin-top: -90px;
   visibility: hidden;
-} */
+}
 
 @font-face {
   font-family: "Freesentation";

@@ -20,7 +20,7 @@ export default function Toc() {
       id: header.id,
       tagName: header.tagName.toLowerCase(),
       title:
-        (header.children[0] as HTMLElement).innerText.replace("#", "") ||
+        (header as HTMLElement).innerText.replace("#", "") ||
         "타이틀이 없습니다.",
     }));
 
@@ -34,9 +34,7 @@ export default function Toc() {
   return (
     <section>
       {tocList.length === 0 && (
-        <p className="text-center text-neutral-400">
-          해당 글은 목차가 없습니다.
-        </p>
+        <p className="ml-4 text-neutral-400">해당 글은 목차가 없습니다.</p>
       )}
       <ul className="flex flex-col gap-2">
         {tocList.map(({ id, tagName, title }) => (
