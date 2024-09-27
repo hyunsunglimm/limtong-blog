@@ -16,7 +16,7 @@ export default function PostBody({ content }: { content: string }) {
             [
               rehypePrettyCode,
               {
-                theme: "github-dark-dimmed",
+                theme: "material-theme-darker",
               },
             ],
             rehypeSlug,

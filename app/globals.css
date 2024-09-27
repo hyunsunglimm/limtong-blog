@@ -6,13 +6,43 @@ body {
   font-family: Freesentation, sans-serif;
 }
 
-pre {
+/* pre {
   overflow-x: auto;
   padding: 1rem 0;
-}
+  border: 1px solid #404040;
+  border-radius: 8px;
+} */
 
 pre [data-line] {
-  padding: 0 1rem;
+  @apply px-4 text-sm md:text-base;
+}
+
+/* 코드 블럭 라인 하이라이팅 */
+figure pre code span[data-highlighted-line] {
+  @apply border-l-2 border-y-0 border-transparent bg-opacity-10 
+      border-my bg-indigo-400 pl-[calc(0.5rem-2px)] md:pl-[calc(1rem-2px)];
+}
+
+/* 인라인 코드 하이라이팅 */
+p > code {
+  font-family: Roboto Mono, Monaco, courier, monospace;
+  @apply bg-white/10 py-[2px] px-1 rounded-sm mr-[2px] font-semibold text-sm;
+}
+
+.list-dot {
+  position: relative;
+}
+
+.list-dot::before {
+  --size: 4px;
+  content: "";
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  top: calc(0.5rem + var(--size) / 2);
+  left: -12px;
 }
 
 @font-face {

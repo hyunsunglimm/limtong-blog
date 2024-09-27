@@ -45,7 +45,7 @@ export const Callout = (props: CalloutProps) => {
   return (
     <div
       className={cn(
-        "my-6 flex items-center gap-3 rounded-md px-5 py-4",
+        "my-6 flex items-center gap-3 rounded-md px-5 py-2",
         boxClassName
       )}
     >
@@ -55,7 +55,7 @@ export const Callout = (props: CalloutProps) => {
         </div>
       )}
 
-      <div className="callout-contents flex-1">
+      <div className="callout-contents flex-1 text-lg">
         {props.title && (
           <span style={{ fontWeight: "bold" }}>{props.title}</span>
         )}
