@@ -20,6 +20,7 @@ export const MdxComponents: MDXComponents = {
   ul: Ul as any,
   ol: Ol as any,
   figure: CodeBlock as any,
+  hr: () => <hr className="my-8 border-0 h-[1px] bg-neutral-600" />,
   p: ({ children }) => <p className="leading-7 my-4">{children}</p>,
   blockquote: Callout,
   Callout,
