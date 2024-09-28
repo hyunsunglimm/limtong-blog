@@ -15,8 +15,6 @@ export default function Toc() {
   useEffect(() => {
     const observer = getIntersectionObserver(setCurrentId);
     const headingElements = Array.from(document.querySelectorAll("h2, h3"));
-    const sections = document.querySelectorAll("section");
-    console.log(sections);
 
     const headingData = headingElements.map((header) => ({
       id: header.id,
