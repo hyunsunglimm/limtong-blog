@@ -15,6 +15,8 @@ export default function Toc() {
   useEffect(() => {
     const observer = getIntersectionObserver(setCurrentId);
     const headingElements = Array.from(document.querySelectorAll("h2, h3"));
+    const sections = document.querySelectorAll("section");
+    console.log(sections);
 
     const headingData = headingElements.map((header) => ({
       id: header.id,
@@ -32,7 +34,7 @@ export default function Toc() {
   }, []);
 
   return (
-    <section>
+    <>
       {tocList.length === 0 && (
         <p className="ml-4 text-neutral-400">해당 글은 목차가 없습니다.</p>
       )}
@@ -50,6 +52,6 @@ export default function Toc() {
           </li>
         ))}
       </ul>
-    </section>
+    </>
   );
 }

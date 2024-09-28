@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 const observerOption = {
-  threshold: 0.4,
+  threshold: 0.1,
   rootMargin: "-90px 0px 0px 0px",
 };
 
@@ -23,7 +23,6 @@ export const getIntersectionObserver = (
   // observer
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      console.log(entry);
       checkScrollDirection(prevYposition);
 
       if (
