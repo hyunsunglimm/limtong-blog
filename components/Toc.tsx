@@ -1,5 +1,4 @@
-import { getIntersectionObserver } from "@/utils/observer";
-import Link from "next/link";
+import useObserver from "@/hooks/useObserver";
 import { useEffect, useState } from "react";
 
 type TocItem = {
@@ -9,12 +8,16 @@ type TocItem = {
 };
 
 export default function Toc() {
-  const [currentId, setCurrentId] = useState<string>("");
+  const [activeId, setActiveId] = useState<string>("");
   const [tocList, setTocList] = useState<TocItem[]>([]);
+  const [headingEls, setHeadingEls] = useState<Element[]>([]);
+
+  useObserver(setActiveId);
 
   useEffect(() => {
-    const observer = getIntersectionObserver(setCurrentId);
+    // const observer = getIntersectionObserver(setActiveId);
     const headingElements = Array.from(document.querySelectorAll("h2, h3"));
+    setHeadingEls(headingElements);
 
     const headingData = headingElements.map((header) => ({
       id: header.id,
@@ -26,10 +29,16 @@ export default function Toc() {
 
     setTocList(headingData);
 
-    headingElements.map((header) => {
-      observer.observe(header);
-    });
+    // headingElements.map((header) => {
+    //   observer.observe(header);
+    // });
   }, []);
+
+  const onScoll = (index: number) => {
+    headingEls[index].scrollIntoView({
+      behavior: "smooth",
+    });
+  };
 
   return (
     <>
@@ -37,16 +46,16 @@ export default function Toc() {
         <p className="ml-4 text-neutral-400">해당 글은 목차가 없습니다.</p>
       )}
       <ul className="flex flex-col gap-2">
-        {tocList.map(({ id, tagName, title }) => (
+        {tocList.map(({ id, tagName, title }, i) => (
           <li key={id} className={`${tagName === "h3" && "ml-4 text-[15px]"}`}>
-            <Link
-              href={`#${id}`}
+            <p
               className={`${
-                currentId === id && "text-my"
-              } hover:text-my transition`}
+                activeId === id && "text-my"
+              } hover:text-my transition cursor-pointer`}
+              onClick={() => onScoll(i)}
             >
               {title}
-            </Link>
+            </p>
           </li>
         ))}
       </ul>
