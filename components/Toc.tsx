@@ -15,7 +15,6 @@ export default function Toc() {
   useObserver(setActiveId);
 
   useEffect(() => {
-    // const observer = getIntersectionObserver(setActiveId);
     const headingElements = Array.from(document.querySelectorAll("h2, h3"));
     setHeadingEls(headingElements);
 
@@ -28,10 +27,6 @@ export default function Toc() {
     }));
 
     setTocList(headingData);
-
-    // headingElements.map((header) => {
-    //   observer.observe(header);
-    // });
   }, []);
 
   const onScoll = (index: number) => {

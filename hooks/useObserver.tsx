@@ -9,7 +9,21 @@ export default function useObserver(
   useEffect(() => {
     headingElementsRef.current = {};
 
+    let direction = "";
+    let prevYposition = 0;
+
+    const checkScrollDirection = (prevY: number) => {
+      if ((window.scrollY === 0 && prevY === 0) || window.scrollY === prevY)
+        return;
+      else if (window.scrollY > prevY) direction = "down";
+      else direction = "up";
+
+      prevYposition = window.scrollY;
+    };
+
     const callback: IntersectionObserverCallback = (headings) => {
+      checkScrollDirection(prevYposition);
+
       headingElementsRef.current = headings.reduce(
         (map: any, headingElement) => {
           map[headingElement.target.id] = headingElement;
@@ -19,6 +33,7 @@ export default function useObserver(
       );
 
       const visibleHeadings: IntersectionObserverEntry[] = [];
+
       Object.keys(headingElementsRef.current).forEach((key) => {
         const headingElement = headingElementsRef.current[key];
 
@@ -35,14 +50,19 @@ export default function useObserver(
           (a, b) => getIndexFromId(a.target.id) - getIndexFromId(b.target.id)
         );
         setActiveId(sortedVisibleHeadings[0].target.id);
+      } else if (visibleHeadings.length === 0 && direction === "up") {
+        setActiveId((prev) => {
+          const prevId = getIndexFromId(prev);
+          return headingElements[prevId - 1].id;
+        });
       }
     };
 
     const observer = new IntersectionObserver(callback, {
-      rootMargin: "-64px 0px -40% 0px",
+      rootMargin: "-60px 0px 0px 0px",
     });
 
-    const headingElements = Array.from(document.querySelectorAll("h1, h2, h3"));
+    const headingElements = Array.from(document.querySelectorAll("h2, h3"));
 
     headingElements.forEach((element) => observer.observe(element));
 
