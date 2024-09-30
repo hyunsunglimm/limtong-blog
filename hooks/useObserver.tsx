@@ -53,7 +53,7 @@ export default function useObserver(
       } else if (visibleHeadings.length === 0 && direction === "up") {
         setActiveId((prev) => {
           const prevId = getIndexFromId(prev);
-          return headingElements[prevId - 1].id;
+          return headingElements[prevId - 1 < 0 ? 0 : prevId - 1].id;
         });
       }
     };
