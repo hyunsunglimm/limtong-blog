@@ -47,6 +47,7 @@ export default function CategoryList({ categoryList }: CategoryListProps) {
                   className={`text-sm hover:text-my transition truncate ${
                     item.slug === slug && "text-my"
                   }`}
+                  aria-label={`${item.title} 포스팅으로 이동합니다.`}
                 >
                   {highlightedText(item.title, keyword)}
                 </Link>

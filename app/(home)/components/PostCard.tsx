@@ -10,7 +10,10 @@ type PostCardProps = {
 export default function PostCard({ post }: PostCardProps) {
   return (
     <li className="relative hover:text-my transition">
-      <Link href={post.url}>
+      <Link
+        href={post.url}
+        aria-label={`${post.title}의 상세페이지로 이동합니다.`}
+      >
         <ResponsiveImage
           src={post.thumbnail}
           alt={`${post.title} 썸네일`}

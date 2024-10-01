@@ -10,6 +10,7 @@ export default function AboutTab({ tab }: { tab: string }) {
           href={`/about?tab=${v}`}
           className={`${tabClass} ${tab === v && "bg-white/10"}`}
           scroll={false}
+          aria-label={`${v} 탭으로 이동`}
         >
           {v.toUpperCase()}
         </Link>
