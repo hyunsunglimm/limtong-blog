@@ -1,17 +1,10 @@
 import { getPost } from "@/service/post";
-import dynamic from "next/dynamic";
 import PostBody from "./components/PostBody";
 import PostHeader from "./components/PostHeader";
 import Comments from "@/components/Comments";
 import { Metadata } from "next";
-
-const LeftSidebar = dynamic(() => import("@/components/LeftSidebar"), {
-  ssr: false,
-});
-
-const RightSidebar = dynamic(() => import("@/components/RightSidebar"), {
-  ssr: false,
-});
+import LeftSidebar from "@/components/LeftSidebar";
+import RightSidebar from "@/components/RightSidebar";
 
 type PostDetailPageProps = {
   params: {
