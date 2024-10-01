@@ -9,10 +9,6 @@ const LeftSidebar = dynamic(() => import("@/components/LeftSidebar"), {
   ssr: false,
 });
 
-const RightSidebar = dynamic(() => import("@/components/RightSidebar"), {
-  ssr: false,
-});
-
 type PostDetailPageProps = {
   params: {
     slug: string;
@@ -31,7 +27,6 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         <PostBody content={post.content} />
         <Comments />
       </div>
-      <RightSidebar />
     </div>
   );
 }
