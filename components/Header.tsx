@@ -10,6 +10,7 @@ export default function Header() {
         <Link
           href="/"
           className="flex items-center gap-2 hover:text-my transition"
+          aria-label="홈으로 이동합니다."
         >
           <Image
             src="/images/limtong-icon.png"

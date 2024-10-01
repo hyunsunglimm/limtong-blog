@@ -98,6 +98,7 @@ export default function MBTI() {
             href="https://namu.wiki/w/ENTJ"
             target="_blank"
             className="hover:text-my transition"
+            aria-label="ENTJ 나무위키로 이동합니다."
           >
             출처: 나무위키
           </Link>

@@ -25,10 +25,18 @@ export default function ProjectCard({ project, priority }: ProjectCardProps) {
       <div className="flex justify-between items-center">
         <p className="text-3xl font-bold mt-4">{project.title}</p>
         <div className="flex gap-4 items-center">
-          <Link href={project.github} target="_blank">
+          <Link
+            href={project.github}
+            target="_blank"
+            aria-label={`${project.title}의 깃허브 주소로 이동`}
+          >
             <GithubIcon />
           </Link>
-          <Link href={project.url} target="_blank">
+          <Link
+            href={project.url}
+            target="_blank"
+            aria-label={`${project.title}의 베포 웹사이트로 이동`}
+          >
             <LinkIcon />
           </Link>
         </div>
