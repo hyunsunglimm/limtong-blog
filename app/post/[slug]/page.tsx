@@ -1,10 +1,6 @@
 import { getPost } from "@/service/post";
-import PostBody from "./components/PostBody";
-import PostHeader from "./components/PostHeader";
-import Comments from "@/components/Comments";
 import { Metadata } from "next";
 import LeftSidebar from "@/components/LeftSidebar";
-import RightSidebar from "@/components/RightSidebar";
 
 type PostDetailPageProps = {
   params: {
@@ -14,17 +10,13 @@ type PostDetailPageProps = {
 
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const { slug } = params;
-  const post = await getPost(slug);
 
   return (
     <div className="flex">
       <LeftSidebar />
       <div className="md:pl-[60px] xl:pl-[300px] md:pr-[60px] lg:pr-[300px] limit:pr-[316px] w-full">
-        <PostHeader post={post} />
-        <PostBody content={post.content} />
-        <Comments />
+        <p>{slug}</p>
       </div>
-      <RightSidebar />
     </div>
   );
 }
