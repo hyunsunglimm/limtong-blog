@@ -1,6 +1,5 @@
 import { getPost } from "@/service/post";
 import { Metadata } from "next";
-import LeftSidebar from "@/components/LeftSidebar";
 
 type PostDetailPageProps = {
   params: {
@@ -11,14 +10,7 @@ type PostDetailPageProps = {
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const { slug } = params;
 
-  return (
-    <div className="flex">
-      <LeftSidebar />
-      <div className="md:pl-[60px] xl:pl-[300px] md:pr-[60px] lg:pr-[300px] limit:pr-[316px] w-full">
-        <p>{slug}</p>
-      </div>
-    </div>
-  );
+  return <p>{slug}</p>;
 }
 
 export async function generateMetadata({
