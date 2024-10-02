@@ -4,7 +4,8 @@ import LeftSidebar from "@/components/LeftSidebar";
 
 export default async function page() {
   const posts: SimplePost[] = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`,
+    { next: { revalidate: 300 } }
   ).then((res) => res.json());
 
   return (

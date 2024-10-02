@@ -23,7 +23,9 @@ export const getPosts = async (): Promise<SimplePost[]> => {
       *[_type == "post"] | order(date desc) {
         ${simplePost}
       }
-    `
+    `,
+      {},
+      { cache: "no-cache" }
     )
     .then((posts) =>
       posts.map((post: SimplePost) => ({
