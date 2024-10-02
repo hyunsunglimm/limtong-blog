@@ -6,6 +6,7 @@ import readingTime from "reading-time";
 import { Post, PostMatter } from "@/model/post";
 import { sync } from "glob";
 import { redirect } from "next/navigation";
+import { client } from "@/sanity/lib/client";
 
 const BASE_PATH = "src/posts";
 const POSTS_PATH = path.join(process.cwd(), BASE_PATH);
@@ -82,3 +83,37 @@ export const getCategoryList = async () => {
   });
   return sortedCategories;
 };
+
+export const getPosts = () => {
+  return client.fetch(`
+      *[_type == "post"] {
+        ${simplePost}
+      }
+    `);
+};
+
+export const getPostDetail = (postId: string) => {
+  return client.fetch(`
+      *[_type == "post" && _id == "${postId}"] {
+        ${fullPost}
+      }
+    `);
+};
+
+const simplePost = `
+  "id": _id,
+  title,
+  description,
+  date,
+  "thumbnail": thumbnail.asset->url,
+`;
+
+const fullPost = `
+  "id": _id,
+  title,
+  description,
+  category,
+  date,
+  "thumbnail": thumbnail.asset->url,
+  content
+`;

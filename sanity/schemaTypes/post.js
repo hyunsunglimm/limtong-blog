@@ -1,23 +1,44 @@
 export const post = {
-  name: "page",
-  title: "Page",
+  title: "Post",
+  name: "post",
   type: "document",
   fields: [
     {
+      title: "Title",
       name: "title",
-      title: "Page Title",
       type: "string",
       validation: (Rule) => Rule.required(),
     },
     {
-      name: "slug",
-      title: "Slug",
-      type: "slug",
+      title: "Description",
+      name: "description",
+      type: "string",
       validation: (Rule) => Rule.required(),
-      options: {
-        source: "title",
-        maxLength: 96,
-      },
+    },
+    {
+      title: "Category",
+      name: "category",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      title: "Date",
+      name: "date",
+      type: "date",
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      title: "Thumbnail",
+      name: "thumbnail",
+      type: "image",
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      title: "Content",
+      name: "content",
+      type: "markdown",
+      description: "포스트 내용을 작성해주세요",
+      validation: (Rule) => Rule.required(),
     },
   ],
 };
