@@ -1,7 +1,7 @@
 import ResponsiveImage from "@/components/ResponsiveImage";
-import { Post } from "@/model/post";
+import { SimplePost } from "@/model/post";
 
-export default function PostHeader({ post }: { post: Post }) {
+export default function PostHeader({ post }: { post: SimplePost }) {
   return (
     <section className="pb-6">
       <h1 className="text-4xl sm:text-5xl text-center font-bold">
@@ -11,7 +11,7 @@ export default function PostHeader({ post }: { post: Post }) {
         <p className="bg-white/10 px-3 py-1 rounded-[24px] text-lg">
           {post.category}
         </p>
-        <p>{post.dateString}</p>
+        <p>{post.date}</p>
       </div>
       <div className="pt-4">
         <ResponsiveImage

@@ -10,9 +10,8 @@ type LeftSidebarClientProps = {
   categoryList: {
     category: string;
     items: {
+      id: string;
       title: string;
-      url: string;
-      slug: string;
     }[];
   }[];
 };

@@ -9,16 +9,15 @@ type CategoryListProps = {
   categoryList: {
     category: string;
     items: {
+      id: string;
       title: string;
-      url: string;
-      slug: string;
     }[];
   }[];
 };
 
 export default function CategoryList({ categoryList }: CategoryListProps) {
   const { keyword } = useSearchStore();
-  const { slug } = useParams();
+  const { id } = useParams();
   const filteredCategoryList = categoryList
     .map((c) => {
       const filteredItems = c.items.filter((item) =>
@@ -43,9 +42,9 @@ export default function CategoryList({ categoryList }: CategoryListProps) {
               {items.map((item) => (
                 <Link
                   key={item.title}
-                  href={item.url}
+                  href={`/post/${item.id}`}
                   className={`text-sm hover:text-my transition truncate ${
-                    item.slug === slug && "text-my"
+                    item.id === id && "text-my"
                   }`}
                   aria-label={`${item.title} 포스팅으로 이동합니다.`}
                 >

@@ -1,4 +1,4 @@
-import { getPost } from "@/service/post";
+import { getPostDetail } from "@/service/post";
 import PostBody from "./components/PostBody";
 import PostHeader from "./components/PostHeader";
 import Comments from "@/components/Comments";
@@ -6,13 +6,13 @@ import { Metadata } from "next";
 
 type PostDetailPageProps = {
   params: {
-    slug: string;
+    id: string;
   };
 };
 
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
-  const { slug } = params;
-  const post = await getPost(slug);
+  const { id } = params;
+  const post = await getPostDetail(id);
 
   return (
     <>
@@ -26,17 +26,17 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 export async function generateMetadata({
   params,
 }: PostDetailPageProps): Promise<Metadata> {
-  const { slug } = params;
-  const post = await getPost(slug);
+  const { id } = params;
+  const post = await getPostDetail(id);
 
   return {
     title: post.title,
-    description: post.desc,
+    description: post.description,
     openGraph: {
       title: post.title,
-      description: post.desc,
+      description: post.description,
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/post/${slug}/`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/post/${id}/`,
       images: post.thumbnail,
       siteName: "임통 블로그",
       locale: "ko_KR",
