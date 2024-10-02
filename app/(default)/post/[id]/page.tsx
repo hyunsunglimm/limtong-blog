@@ -1,8 +1,9 @@
-import { getPostDetail } from "@/service/post";
+import { FullPost } from "@/model/post";
 import PostBody from "./components/PostBody";
 import PostHeader from "./components/PostHeader";
 import Comments from "@/components/Comments";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 type PostDetailPageProps = {
   params: {
@@ -12,9 +13,11 @@ type PostDetailPageProps = {
 
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const { id } = params;
-  const post = await fetch(
+  const post: FullPost = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`
   ).then((res) => res.json());
+
+  if (!post) return redirect("/");
 
   return (
     <>
@@ -29,7 +32,9 @@ export async function generateMetadata({
   params,
 }: PostDetailPageProps): Promise<Metadata> {
   const { id } = params;
-  const post = await getPostDetail(id);
+  const post: FullPost = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`
+  ).then((res) => res.json());
 
   return {
     title: post.title,

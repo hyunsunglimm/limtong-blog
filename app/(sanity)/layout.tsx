@@ -1,13 +1,7 @@
-export default function SanityLayout({
+export default function EmptyLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="ko">
-      <body>
-        <main>{children}</main>
-      </body>
-    </html>
-  );
+  return <section>{children}</section>;
 }

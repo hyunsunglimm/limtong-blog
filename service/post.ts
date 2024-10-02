@@ -33,19 +33,23 @@ export const getPosts = async (): Promise<SimplePost[]> => {
     );
 };
 
-export const getPostDetail = async (postId: string): Promise<FullPost> => {
-  return client
-    .fetch(
-      `
+export const getPostDetail = async (
+  postId: string
+): Promise<FullPost | null> => {
+  const post = await client.fetch(
+    `
       *[_type == "post" && _id == "${postId}"] {
         ${fullPost}
       }[0]
     `
-    )
-    .then((post) => ({
-      ...post,
-      date: dayjs(post.date).locale("ko").format("YYYY년 MM월 DD일"),
-    }));
+  );
+
+  if (!post) return null;
+
+  return {
+    ...post,
+    date: dayjs(post.date).locale("ko").format("YYYY년 MM월 DD일"),
+  };
 };
 
 // 카테고리별 포스트 분류
