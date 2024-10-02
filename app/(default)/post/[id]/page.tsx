@@ -12,7 +12,9 @@ type PostDetailPageProps = {
 
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const { id } = params;
-  const post = await getPostDetail(id);
+  const post = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`
+  ).then((res) => res.json());
 
   return (
     <>

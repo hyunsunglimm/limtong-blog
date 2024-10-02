@@ -13,6 +13,8 @@ export default function ResponsiveImage({
   priority,
   isFull = false,
 }: ResponsiveImageProps) {
+  const isGif = src.toLowerCase().endsWith(".gif");
+
   return (
     <div className="relative w-full pb-[75%]">
       <Image
@@ -26,6 +28,7 @@ export default function ResponsiveImage({
         }
         className="object-cover rounded-md"
         priority={priority}
+        unoptimized={isGif}
       />
     </div>
   );

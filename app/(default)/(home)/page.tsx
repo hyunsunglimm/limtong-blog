@@ -1,9 +1,11 @@
-import { getPosts } from "@/service/post";
+import { SimplePost } from "@/model/post";
 import PostCard from "./components/PostCard";
 import LeftSidebar from "@/components/LeftSidebar";
 
 export default async function page() {
-  const posts = await getPosts();
+  const posts: SimplePost[] = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
+  ).then((res) => res.json());
 
   return (
     <div className="flex">
