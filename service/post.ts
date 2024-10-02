@@ -20,7 +20,7 @@ export const getPosts = async (): Promise<SimplePost[]> => {
   return client
     .fetch(
       `
-      *[_type == "post"] {
+      *[_type == "post"] | order(date desc) {
         ${simplePost}
       }
     `
