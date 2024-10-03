@@ -1,4 +1,4 @@
-import { projects } from "@/utils/about";
+import { projects } from "@/static/about";
 import ProjectCard from "./ProjectCard";
 
 export default function Projects() {

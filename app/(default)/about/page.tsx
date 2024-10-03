@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import AboutTab from "./components/AboutTab";
 import Profile from "./components/Profile";
-import { tabs } from "@/utils/about";
+import { tabs } from "@/static/about";
 import Projects from "./components/Projects";
 import Skills from "./components/Skills";
 import { Metadata } from "next";

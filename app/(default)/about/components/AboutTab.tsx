@@ -1,4 +1,4 @@
-import { tabs } from "@/utils/about";
+import { tabs } from "@/static/about";
 import Link from "next/link";
 
 export default function AboutTab({ tab }: { tab: string }) {

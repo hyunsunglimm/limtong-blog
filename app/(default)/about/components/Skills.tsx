@@ -1,4 +1,4 @@
-import { skills } from "@/utils/about";
+import { skills } from "@/static/about";
 import Badge from "./Badge";
 
 export default function Skills() {
