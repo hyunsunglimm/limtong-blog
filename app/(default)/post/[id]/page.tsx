@@ -1,8 +1,11 @@
-import { FullPost } from "@/model/post";
+import { FullPost, SimplePost } from "@/model/post";
+// import PostBody from "./components/PostBody";
 import PostHeader from "./components/PostHeader";
 import Comments from "@/components/Comments";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
+import PostBody from "./components/PostBody";
+import { Suspense } from "react";
 
 type PostDetailPageProps = {
   params: {
@@ -12,18 +15,20 @@ type PostDetailPageProps = {
 
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const { id } = params;
-  const post: FullPost = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`
+  const posts: SimplePost[] = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
   ).then((res) => res.json());
+
+  const post = posts.find((p) => p.id === id);
 
   if (!post) return redirect("/");
 
   return (
     <>
       <PostHeader post={post} />
-      <div className="pb-8">
-        <p>{post.content}</p>
-      </div>
+      <Suspense fallback={<p>Loading...</p>}>
+        <PostBody postId={post.id} />
+      </Suspense>
       <Comments />
     </>
   );

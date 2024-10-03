@@ -1,7 +1,7 @@
 import ResponsiveImage from "@/components/ResponsiveImage";
-import { FullPost } from "@/model/post";
+import { SimplePost } from "@/model/post";
 
-export default function PostHeader({ post }: { post: FullPost }) {
+export default function PostHeader({ post }: { post: SimplePost }) {
   return (
     <section className="pb-6">
       <h1 className="text-4xl sm:text-5xl text-center font-bold">
