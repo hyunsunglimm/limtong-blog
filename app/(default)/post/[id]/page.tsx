@@ -1,5 +1,4 @@
 import { FullPost } from "@/model/post";
-import PostBody from "./components/PostBody";
 import PostHeader from "./components/PostHeader";
 import Comments from "@/components/Comments";
 import { Metadata } from "next";
@@ -22,7 +21,9 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   return (
     <>
       <PostHeader post={post} />
-      <PostBody content={post.content} />
+      <div className="pb-8">
+        <p>{post.content}</p>
+      </div>
       <Comments />
     </>
   );
