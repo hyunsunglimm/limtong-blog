@@ -36,6 +36,8 @@ export async function generateMetadata({
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`
   ).then((res) => res.json());
 
+  if (!post) return redirect("/");
+
   return {
     title: post.title,
     description: post.description,

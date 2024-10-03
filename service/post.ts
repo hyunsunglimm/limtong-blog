@@ -25,7 +25,7 @@ export const getPosts = async (): Promise<SimplePost[]> => {
       }
     `,
       {},
-      { cache: "no-cache" }
+      { cache: "no-store" }
     )
     .then((posts) =>
       posts.map((post: SimplePost) => ({
@@ -43,7 +43,9 @@ export const getPostDetail = async (
       *[_type == "post" && _id == "${postId}"] {
         ${fullPost}
       }[0]
-    `
+    `,
+    {},
+    { cache: "no-store" }
   );
 
   if (!post) return null;
