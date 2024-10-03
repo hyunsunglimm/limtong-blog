@@ -5,13 +5,7 @@ import rehypeSlug from "rehype-slug";
 import remarkBreaks from "remark-breaks";
 import { MdxComponents } from "@/components/mdx";
 
-export default async function PostBody({ postId }: { postId: string }) {
-  const content = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${postId}`
-  )
-    .then((res) => res.json())
-    .then((post) => post.content);
-
+export default async function PostBody({ content }: { content: string }) {
   return (
     <div className="pb-8">
       <MDXRemote
