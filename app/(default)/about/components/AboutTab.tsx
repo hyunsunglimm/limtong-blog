@@ -1,19 +1,21 @@
-import { tabs } from "@/static/about";
-import Link from "next/link";
+"use client";
 
-export default function AboutTab({ tab }: { tab: string }) {
+import { tabs } from "@/static/about";
+import { useTabStore } from "@/store/tab";
+
+export default function AboutTab() {
+  const { tab, setTab } = useTabStore();
   return (
     <section className="mt-8 mb-4 grid grid-cols-3 md:grid-cols-4 gap-4">
       {tabs.map((v) => (
-        <Link
+        <div
           key={v}
-          href={`/about?tab=${v}`}
-          className={`${tabClass} ${tab === v && "bg-white/10"}`}
-          scroll={false}
+          onClick={() => setTab(v)}
+          className={`${tabClass} ${tab === v && "bg-white/10"} cursor-pointer`}
           aria-label={`${v} 탭으로 이동`}
         >
           {v.toUpperCase()}
-        </Link>
+        </div>
       ))}
     </section>
   );
