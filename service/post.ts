@@ -58,7 +58,9 @@ export const getPostDetail = async (
 
 // 카테고리별 포스트 분류
 export const getCategoryList = async () => {
-  const posts = await getPosts();
+  const posts: SimplePost[] = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
+  ).then((res) => res.json());
   const categories = [...new Set(posts.map((post) => post.category))];
   const categoryList = categories.map((category) => ({
     category,
