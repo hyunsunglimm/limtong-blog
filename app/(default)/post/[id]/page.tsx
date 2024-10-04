@@ -1,17 +1,11 @@
-import { FullPost } from "@/model/post";
-import PostBody from "./components/PostBody";
-import PostHeader from "./components/PostHeader";
+import { FullPost, SimplePost } from "@/model/post";
+import { redirect } from "next/navigation";
+import PostHeader from "../../post/[id]/components/PostHeader";
+import PostBody from "../../post/[id]/components/PostBody";
 import Comments from "@/components/Comments";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 
-type PostDetailPageProps = {
-  params: {
-    id: string;
-  };
-};
-
-export default async function PostDetailPage({ params }: PostDetailPageProps) {
+export default async function page({ params }: { params: { id: string } }) {
   const { id } = params;
   const post: FullPost = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`
@@ -28,9 +22,21 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   );
 }
 
+export async function generateStaticParams() {
+  const posts: SimplePost[] = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
+  ).then((res) => res.json());
+
+  return posts.map((post) => ({
+    id: post.id,
+  }));
+}
+
 export async function generateMetadata({
   params,
-}: PostDetailPageProps): Promise<Metadata> {
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
   const { id } = params;
   const post: FullPost = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`
