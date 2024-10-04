@@ -1,4 +1,4 @@
-import { getPost } from "@/service/post";
+import { getPost, getPostList } from "@/service/post";
 import PostBody from "./components/PostBody";
 import PostHeader from "./components/PostHeader";
 import Comments from "@/components/Comments";
@@ -27,6 +27,14 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
       <RightSidebar />
     </div>
   );
+}
+
+export async function generateStaticParams() {
+  const posts = await getPostList();
+
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
 }
 
 export async function generateMetadata({
