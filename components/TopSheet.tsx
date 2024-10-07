@@ -32,7 +32,7 @@ export default function TopSheet() {
           </SheetClose>
           <SheetClose asChild>
             <Link
-              href="https://drive.google.com/file/d/12gAE4N6FfAdIL4U3g41-miOaI8pZE-3z/view"
+              href="https://drive.google.com/file/d/1N_kWmmyU8MjyKOSNiVDPVHXOxNeJupnW/view"
               target="_blank"
               className={LinkClass}
               aria-label="임현성의 이력서로 이동합니다."
