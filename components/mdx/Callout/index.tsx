@@ -19,20 +19,20 @@ type IconType = {
 
 const metadata: IconType = {
   info: {
-    icon: Icon.Warn,
-    boxClass: "text-informative-foreground bg-khaki/30",
+    icon: Icon.Info,
+    boxClass: "ring ring-blue-500",
   },
   warn: {
-    icon: Icon.Info,
-    boxClass: "text-white bg-warning/20",
+    icon: Icon.Warn,
+    boxClass: "ring ring-yellow-500",
   },
   danger: {
     icon: Icon.Danger,
-    boxClass: "text-white bg-destructive/20",
+    boxClass: "ring ring-red-500",
   },
   normal: {
     icon: Icon.Normal,
-    boxClass: "text-white bg-white/10",
+    boxClass: "border-l-4 px-6 border-my bg-my/5 rounded-r-sm",
   },
 };
 
@@ -47,7 +47,7 @@ export const Callout = (props: CalloutProps) => {
   return (
     <div
       className={cn(
-        "my-6 flex items-center gap-3 rounded-md px-5 py-2",
+        `my-6 flex items-center gap-3 ${type === "normal" ? "" : "rounded-md px-5 py-2"}`,
         boxClassName
       )}
     >
