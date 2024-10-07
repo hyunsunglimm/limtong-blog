@@ -9,6 +9,7 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import GithubIcon from "./icons/GithubIcon";
+import { RESUME_LINK } from "@/utils/about";
 
 export default function TopSheet() {
   return (
@@ -32,7 +33,7 @@ export default function TopSheet() {
           </SheetClose>
           <SheetClose asChild>
             <Link
-              href="https://drive.google.com/file/d/1N_kWmmyU8MjyKOSNiVDPVHXOxNeJupnW/view"
+              href={RESUME_LINK}
               target="_blank"
               className={LinkClass}
               aria-label="임현성의 이력서로 이동합니다."

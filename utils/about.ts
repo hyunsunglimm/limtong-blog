@@ -27,3 +27,6 @@ export const projects = [
     url: "https://www.libromondo.shop",
   },
 ];
+
+export const RESUME_LINK =
+  "https://drive.google.com/file/d/11kXpsaPvT-GTht0z_tMAumH4p61qJJeG/view";
