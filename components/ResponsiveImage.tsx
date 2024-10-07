@@ -3,14 +3,14 @@ import Image from "next/image";
 type ResponsiveImageProps = {
   src: string;
   alt: string;
-  priority: boolean;
+  priority?: boolean;
   isFull?: boolean;
 };
 
 export default function ResponsiveImage({
   src,
   alt,
-  priority,
+  priority = false,
   isFull = false,
 }: ResponsiveImageProps) {
   const isGif = src.toLowerCase().endsWith(".gif");

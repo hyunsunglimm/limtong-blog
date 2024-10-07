@@ -1,0 +1,205 @@
+---
+title: Next.js로 블로그 만들기
+date: 2024-10-06
+desc: 개발자로서 문서화의 중요성을 깨닫고, 블로그 포스팅 습관과 애정을 갖기 위해 제작한 나만의 블로그 (Next.js + MDX 블로그 개발 회고)
+thumbnail: /images/posts/회고/create-a-blog-with-nextjs/thumbnail.png
+---
+
+## 계기
+
+개발자에겐 그 동안 자신이 학습한 내용들과 겪었던 문제와 해결 과정을 기록하는 것이 정말 중요하다는 생각이 들었습니다.
+이는 개발을 시작한 지 얼마 되지 않았을 때 부터 알고 있었지만, 아직까지도 잘 습관이 들지 않아 꾸준하게 포스트를 작성하지 못하고 있었습니다.
+
+가끔씩 패스트캠퍼스 깃헙 조직을 통해 멘토님들의 깃헙을 둘러보는데 프로필에 개인 기술 블로그를 링크해놓으신 분들이 몇몇 계셨습니다.
+블로그마다 각자의 개성이 보이고, UX를 고려하여 블로그를 개발하신 느낌이 들었습니다.
+
+> 그러면 나도 웹 개발자인데 개인 블로그 하나쯤은 직접 개발해서 운영할 수 있지 않을까 ?
+
+하는 생각이 바로 들었고 내가 원하는 디자인, 기능, 나만의 도메인으로 기술 블로그를 운영하게 된다면 더 애정이 갈 것이고 꾸준히 포스팅을 할 수 있을 거라는 생각이 들기 시작했습니다. 그래서 바로 개발을 시작하였습니다.
+
+## 사용한 기술 & 스택
+
+- **Next.js**
+
+우선, 가장 중요한 웹 개발 프레임워크로써 `Next.js`를 선택했습니다.
+가장 익숙한 도구이기도 하고 이미지, 폰트 최적화 및 `SEO`까지 보장해주기 때문에 선택하게 되었습니다.
+
+- **TypeScript**
+
+`TypeScript`는 정적 언어이므로 컴파일 단계에서 타입 에러를 미리 확인할 수 있어
+실행 전에 버그를 사전에 방지할 수 있습니다. 따라서 코드에 안정성을 더하여 개발할 수 있기 때문에 선택하게 되었습니다.
+
+- **Tailwind CSS**
+
+CSS 프레임워크로는 `Tailwind CSS`를 사용했습니다. 정의된 클래스명으로 빠르게 퍼블리싱이 가능하고 구성을 통해
+디자인 시스템을 통합할 수 있습니다.
+
+- **Zustand**
+
+상태 관리 라이브러리로는 `Zustand`를 사용했습니다. `Zustand`는 간결하고 직관적인 API를 제공하여 간단하고 빠르게 전역 상태 관리를 할 수 있어 선택했습니다.
+
+## 개발 과정
+
+### 퍼블리싱
+
+`Tailwind CSS`와 `shadcd/ui`를 사용하여 레이아웃을 구축했습니다.
+개발할 페이지는 메인페이지와 포스트 페이지, About 페이지였는데 각각의 페이지에 개발한 기능은 다음과 같습니다.
+
+- **메인페이지**
+
+  - Left sidebar: 전체 글을 카테고리 별로 조회
+  - 전체 글을 카드 형식으로 조회
+
+- **포스트 페이지**
+
+  - Left Sidebar: 전체 글을 카테고리 별로 조회
+  - Right Sidebar: 포스트 목차 조회, TOC(Table Of Contents)
+  - MDX를 html로 변환하여 포스트 내용 조회
+  - `giscus`를 사용한 댓글 기능
+
+- **About 페이지**
+  - 개발자 프로필 조회
+  - 개발자의 프로젝트와 자주 사용하는 기술 조회
+
+각 페이지의 기능에 맞게 레이아웃을 구성하고 `Tailwind CSS`에서 제공하는 기본 `Break Point`에 맞추어 반응형 디자인을 구현했습니다.
+
+### MDX 변환
+
+MDX 변환 관련 라이브러리는 다음과 같습니다.
+
+- `next-mdx-remote`
+
+Next.js에서 MDX파일을 동적으로 불러와서 렌더링을 할 수 있게 해주는 라이브러리입니다.
+`next-mdx-remote`와 함께 사용한 플러그인은 다음과 같습니다.
+
+- `remark-gfm`: 리터럴 자동 링크, 각주, 취소선, 표, 작업 목록을 지원합니다.
+
+- `remark-breaks`: markdown은 기본적으로 두 줄 개행인데, 한 줄로도 개행하게 해줍니다.
+
+- `rehype-pretty-code`: 코드 블록을 깔끔하게 하이라이팅하고, 코드에 스타일을 적용하기 위해 사용합니다.
+
+- `rehype-slug`: TOC를 구현하기 위해 사용한 플러그인으로, mdx문서에서 변환된 heading태그에 id값을 지정해줍니다.
+
+```tsx {6, 27}
+import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
+import remarkBreaks from "remark-breaks";
+import { MdxComponents } from "@/components/mdx";
+
+export default function PostBody({ content }: { content: string }) {
+  return (
+    <div className="pb-8">
+      <MDXRemote
+        source={content}
+        options={{
+          mdxOptions: {
+            remarkPlugins: [remarkGfm, remarkBreaks],
+            rehypePlugins: [
+              [
+                rehypePrettyCode,
+                {
+                  theme: "material-theme-darker",
+                },
+              ],
+              rehypeSlug,
+            ],
+          },
+        }}
+        components={MdxComponents}
+      />
+    </div>
+  );
+}
+```
+
+하이라이팅된 `MdxComponents`는 MDX에서 변환된 html요소를 개발자가 커스텀하여 재구성해주는 컴포넌트입니다.
+저는 아래와 같이 작성했습니다.
+
+```tsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Image } from "./Image";
+import { MDXComponents } from "mdx/types";
+import { ExternalLink } from "./Link";
+import { Callout } from "./Callout";
+import * as Heading from "./Heading";
+import { Ol, Ul } from "./List";
+import { CodeBlock } from "./CodeBlock";
+
+// 커스텀 스타일
+export const MdxComponents: MDXComponents = {
+  a: ExternalLink as any,
+  img: Image as any,
+  h1: Heading.h1 as any,
+  h2: Heading.h2 as any,
+  h3: Heading.h3 as any,
+  h4: Heading.h4 as any,
+  h5: Heading.h5 as any,
+  h6: Heading.h6 as any,
+  ul: Ul as any,
+  ol: Ol as any,
+  figure: CodeBlock as any,
+  hr: () => <hr className="my-8 border-0 h-[1px] bg-neutral-600" />,
+  p: ({ children }) => <p className="leading-7 my-4">{children}</p>,
+  blockquote: Callout,
+  Callout,
+};
+```
+
+## 발생한 문제
+
+여기까지 개발을 완료했을 때, 개발 환경에서는 원했던 기능 모두 아주 잘 동작하였습니다.
+그런데 문제는 `vercel`에 배포했을 때 포스트 페이지가 SSR로 동작했기 때문에 서버에서 html을 구성하여 화면을 그릴 때 속도가 굉장히 느렸습니다.
+
+![개발 환경 포스트 상세 페이지 LCP 측정 결과](/images/posts/회고/create-a-blog-with-nextjs/1.png)
+
+![개발 환경 포스트 상세 페이지 성능 측정 결과](/images/posts/회고/create-a-blog-with-nextjs/2.png)
+
+![배포 후 포스트 상세 페이지 LCP 측정 결과](/images/posts/회고/create-a-blog-with-nextjs/3.png)
+
+![배포 후 포스트 상세 페이지 성능 측정 결과](/images/posts/회고/create-a-blog-with-nextjs/4.png)
+
+### 원인
+
+이제까지 개발한 경험을 떠올려보면 문제를 해결하기 위해 가장 먼저 해야하는 것은 정확한 원인을 분석하는 것 이었습니다.
+다음은 포스트 페이지의 코드입니다.
+
+```tsx {3}
+export default async function PostDetailPage({ params }: PostDetailPageProps) {
+  const { slug } = params;
+  const post = await getPost(slug);
+
+  return (
+    <>
+      <PostHeader post={post} />
+      <PostBody content={post.content} />
+      <Comments />
+    </>
+  );
+}
+```
+
+처음 생각했던 원인은 `getPost`함수였습니다.
+
+```ts
+// 상세 포스트 조회
+export const getPost = async (slug: string) => {
+  const path = sync(`${POSTS_PATH}/**/${slug}/content.mdx`)[0];
+  if (!path) return redirect("/");
+  const post = await parsePost(path);
+  return post;
+};
+```
+
+혹시 로컬에 있는 MDX파일을 파싱하는데 시간이 오래걸리나? 하고 생각하여 아예 `Headless CMS`를 사용하여 클라우드 상에 MDX를 띄워놓고 html로 변환하면 어떨까? 하고 생각하였습니다.
+
+그래서 브랜치를 새로 생성하고 `Sanity`와 `Route Handlers`를 활용하여 데이터를 패칭하는 방식으로 해보았습니다.
+
+MDX를
+
+결국 포스트 페이지의 렌더링이 늦어지는 것이므로 `PostHeader`, `PostBody`, `Comments` 각각의 컴포넌트들을 차례로 제거해보며 테스트를 시작해보았습니다.
+그런데 배포환경에서는 렌더링 속도가 늦어지는 오류를 알 수 없었기 때문에 코드를 수정하고 배포해서 테스트 결과를 확인하고를 반복했습니다.
+이러한 테스트 방법은 절대로 옳지 않다고 생각하지만, `yarn build && yarn start`를 통해 배포 환경을 테스트 했을 때에도 `vercel`에 배포했을 때와 다른 결과를 보여주었기 때문에 현재 저의 능력으로는 이 방법으로 할 수 밖에 없었습니다. 역시 개발자는 문제를 맞닥뜨리면서 깨져봐야 자신의 기술의 한계를 파악하고 더 성장할 수 있게 되는 것 같습니다...😢
+
+어쨌든, 결론적으로 랜더링 속도 저하의 문제는 `PostBody`컴포넌트에 있었습니다.

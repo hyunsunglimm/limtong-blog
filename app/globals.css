@@ -21,8 +21,13 @@ figure pre code span[data-highlighted-line] {
 }
 
 /* 인라인 코드 하이라이팅 */
-p > code {
-  font-family: Roboto Mono, Monaco, courier, monospace;
+p > code,
+li > code {
+  font-family:
+    Roboto Mono,
+    Monaco,
+    courier,
+    monospace;
   @apply bg-white/10 py-[2px] px-1 rounded-sm mr-[2px] font-semibold text-sm;
 }
 
