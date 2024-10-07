@@ -192,7 +192,7 @@ export const getPost = async (slug: string) => {
 };
 ```
 
-혹시 로컬에 있는 MDX파일을 파싱하는데 시간이 오래걸리나? 하고 생각하여 아예 `Headless CMS`를 사용하여 클라우드 상에 MDX를 띄워놓고 html로 변환하면 어떨까? 하고 생각하였습니다.
+혹시 로컬에 있는 MDX파일을 파싱하는데 시간이 오래걸리나? 라는 생각이 들었고, 그렇다면 `Headless CMS`를 사용하여 클라우드 상에 MDX를 띄워놓고 html로 변환하는 방식으로 구현해보면 될 것이라고 생각했습니다.
 
 그래서 브랜치를 새로 생성하고 `Sanity`와 `Route Handlers`를 활용하여 데이터를 패칭하는 방식으로 해보았습니다.
 
@@ -203,7 +203,8 @@ export const getPost = async (slug: string) => {
 ![Sanity Studio로 데이터 관리하고 확인하기 2](/images/posts/회고/create-a-blog-with-nextjs/7.png)
 
 이렇게 데이터를 담아두고 로컬에 있는 MDX파일이 아닌 띄워져 있는 데이터를 받아와서 랜더링하는 방식으로 변경하고, 다시 배포를 해보았습니다.
-결과는 여전히 렌더링 속도는 개선되지 않았습니다...😇
+MDX파일과 썸네일을 로컬에서 관리하는 것이 아니라 클라우드 상에 데이터로 관리하는 점에서 프로젝트 폴더와 게시물을 독립적으로 관리할 수 있다는 장점이 있긴 했지만,
+결과적으로 여전히 렌더링 속도는 개선되지 않았습니다...😇
 
 그래서 저는 다른 이유를 찾기 시작했습니다. 이번에는 `getPost`함수가 아닌 포스트 페이지의 각 3개의 컴포넌트에 집중했습니다.
 
@@ -254,3 +255,109 @@ export async function generateStaticParams() {
   }));
 }
 ```
+
+코드를 수정하고 배포를 하여 결과를 확인해보았습니다. SSG 렌더링 방식은 빌드시점에 지정한 페이지의 HTML을 미리 생성하기 때문에 전보다 훨씬 빠르게 포스트 페이지를 확인할 수 있었습니다. LCP가 무려 3000ms에서 200ms로 대략 93% 감소되었습니다. 하지만 저의 고민은 여기서 끝나지 않았습니다.
+
+<Callout type="warn">만약 데이터(포스트의 내용)가 변경된다면 ?</Callout>
+
+실제로 테스트할 포스트를 추가한 뒤 빌드를 해보니 다음과 같은 에러가 발생하였습니다.
+
+![배포 후 포스트 상세 페이지 성능 측정 결과](/images/posts/회고/create-a-blog-with-nextjs/8.png)
+
+```ts title="GROQ을 사용하여 sanity에서 데이터를 가져오는 getPost 함수" {9}
+export const getPost = async (postId: string): Promise<FullPost | null> => {
+  const post = await client.fetch(
+    `
+      *[_type == "post" && _id == "${postId}"] {
+        ${fullPost}
+      }[0]
+    `,
+    {},
+    { cache: "no-store" }
+  );
+
+  if (!post) return null;
+
+  return {
+    ...post,
+    date: dayjs(post.date).locale("ko").format("YYYY년 MM월 DD일"),
+  };
+};
+```
+
+`{ cache: "no-store" }`옵션을 주었기 때문에 `Sanity studio`에서 데이터가 변경되면 즉시 변경된 데이터를 `/api/posts/[id]` 경로로 띄웁니다.
+
+```ts title="Route handlers를 사용하여 해당 id값의 포스트 데이터 띄우기" {13}
+// /api/posts/[id]/route.ts
+import { getPostDetail } from "@/service/post";
+
+type Context = {
+  params: {
+    id: string;
+  };
+};
+
+export const GET = async (_: Request, context: Context) => {
+  const { id } = context.params;
+
+  const post = await getPost(id);
+
+  return Response.json(post);
+};
+```
+
+```tsx title="포스트 페이지에서 fetch하여 렌더링" {3-5, 19-21}
+export default async function page({ params }: { params: { id: string } }) {
+  const { id } = params;
+  const post: FullPost = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`
+  ).then((res) => res.json());
+
+  if (!post) return redirect("/");
+
+  return (
+    <>
+      <PostHeader post={post} />
+      <PostBody content={post.content} />
+      <Comments />
+    </>
+  );
+}
+
+export async function generateStaticParams() {
+  const posts: SimplePost[] = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
+  ).then((res) => res.json());
+
+  return posts.map((post) => ({
+    id: post.id,
+  }));
+}
+```
+
+위 코드의 흐름을 살펴보면 `getPost`함수는 `{ cache: "no-store" }`라는 옵션을 적용하여 `Sanity studio`의 데이터가 변경될 떄 즉시, 변경된 데이터를 반영하여 `/api/posts/[id]` 경로로 데이터를 띄워줍니다.
+`/api/posts/[id]` 경로에 띄워진 데이터를 바탕으로 포스트 페이지에서 `fetch`메서드를 사용하여 데이터를 받아옵니다. 하지만 이 때의 `fetch`메서드는 캐시된 데이터를 받아오고 있으므로 실제 변경된 데이터와의 차이가 발생하면서 정적 파라미터를 생성할 수 없다고 생각했습니다.
+
+이 문제를 해결하기 위해 MDX파일을 다시 로컬파일로 관리하는 로직으로 수정했고, 이제는 문제없이 정적 파라미터를 생성할 수 있었고 배포 시 SSG 랜더링도 성공적으로 할 수 있었습니다.
+
+## 마무리
+
+개인 블로그 개발은 데이터가 수시로 변경되는 웹사이트가 아니다보니까 쉽게 개발할 수 있을 것이라 생각했는데, 정말 예상치 못하게 랜더링 속도가 너무 느려서 이를 해결하고 개선하기 위해 여러 고민과 노력들을 하며 많이 배우게 되었던 프로젝트라고 생각합니다.
+
+아무튼 가장 기본적인 블로그의 구색은 갖추어 개발을 완료할 수 있어서 저는 개인적으로 굉장히 뿌듯한 경험을 한 프로젝트였습니다.
+마지막으로 새로 배우게 된 점과 개선할 점에 대해서 정리하며 포스팅을 마무리하도록 하겠습니다.
+
+### 새로 배우게된 점
+
+- 개발자 도구를 통한 성능 검사
+- 랜더링 속도 최적화
+- SSR, ISR, SSG, CSR 각각의 정의와 활용
+- IntersectionObserver 인스턴스
+- next.js에서 fetch의 데이터 캐싱 활용
+
+### 개선할 점
+
+- 포스트와 프로젝트를 분리하여 독립적으로 포스팅을 하기위해 `Headless CMS`를 사용하거나 `AWS`의 `S3 Bucket`을 사용하여 클라우드 상에서 MDX파일과 에셋을 관리하기
+- 포스트 내용에 변경사항(추가, 삭제, 수정 등)이 생기면 바로 웹사이트에 적용할 수 있도록 `CI/CD` 구축
+- 이미지 최적화
+- 포스트의 개수가 많아짐에 따라 메인페이지의 `LCP` 시간 단축하기 위한 방법 고민
