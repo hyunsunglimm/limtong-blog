@@ -262,7 +262,7 @@ export async function generateStaticParams() {
 
 실제로 테스트할 포스트를 추가한 뒤 빌드를 해보니 다음과 같은 에러가 발생하였습니다.
 
-![배포 후 포스트 상세 페이지 성능 측정 결과](/images/posts/회고/create-a-blog-with-nextjs/8.png)
+![빌드 에러 메시지](/images/posts/회고/create-a-blog-with-nextjs/8.png)
 
 ```ts title="GROQ을 사용하여 sanity에서 데이터를 가져오는 getPost 함수" {9}
 export const getPost = async (postId: string): Promise<FullPost | null> => {
