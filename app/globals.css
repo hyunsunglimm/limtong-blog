@@ -12,7 +12,7 @@ pre {
 }
 
 pre [data-line] {
-  @apply px-4 text-sm md:text-base;
+  @apply px-4 text-sm;
 }
 
 /* 코드 블럭 라인 하이라이팅 */
