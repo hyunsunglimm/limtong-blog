@@ -9,7 +9,6 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import GithubIcon from "./icons/GithubIcon";
-import { RESUME_LINK } from "@/utils/about";
 
 export default function TopSheet() {
   return (
@@ -29,16 +28,6 @@ export default function TopSheet() {
               aria-label="About 페이지로 이동합니다."
             >
               ABOUT
-            </Link>
-          </SheetClose>
-          <SheetClose asChild>
-            <Link
-              href={RESUME_LINK}
-              target="_blank"
-              className={LinkClass}
-              aria-label="임현성의 이력서로 이동합니다."
-            >
-              RESUME
             </Link>
           </SheetClose>
           <SheetClose asChild>
